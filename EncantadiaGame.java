@@ -63,29 +63,29 @@ public class EncantadiaGame {
         typePrint("and reclaim their Brilyante to rule all of Encantadia! ⚔️\n", 20);
 
         // New characters (players)
-        Character jelian = new Character("Jelian (Aerokinesis)", "Air",
-                new String[]{"Utot", "Carbon dioxide", "Bad Breathe Attack"},
+        Character jelian = new Character("Jelian (Goddes of Whispers)", "Air",
+                new String[]{"Carbon Dioxide", "Bad Breathe", "Utot"},
                 new int[]{40, 55, 70},
                 new int[]{20, 30, 40});
 
-        Character mary = new Character("Mary (Hydrokinesis)", "Water",
-                new String[]{"Luha", "Baha", "Tsunami"},
+        Character mary = new Character("Mary (Goddes of Tides)", "Water",
+                new String[]{"Luha", "Flood Control", "Tsunami"},
                 new int[]{35, 50, 65},
                 new int[]{15, 25, 35});
 
-        Character joygen = new Character("Joygen (Pyrokinesis)", "Fire",
+        Character joygen = new Character("Joygen (Goddes of Eternal Blaze)", "Fire",
                 new String[]{"In Heat", "Hyperventilation", "Impyerno"},
                 new int[]{45, 60, 80},
                 new int[]{20, 35, 50});
 
-        Character dirk = new Character("Dirk (Geokinesis)", "Earth",
-                new String[]{"Linog", "Bato Dela Rosa", "Plantito Attack"},
+        Character dirk = new Character("Dirk (God of Living Soil)", "Earth",
+                new String[]{"Bato Dela Rosa", "Ding ang Bato", "Linog"},
                 new int[]{40, 55, 75},
                 new int[]{15, 30, 40});
 
         // Original Sang’gres (enemies)
         Character pirena = new Character("Pirena ()", "Fire",
-                new String[]{"Fireball", "Flame Burst", "Inferno Strike"},
+                new String[]{"In Heat", "Thirstrap", "Wow naay nasunog, wow wow wa wow"},
                 new int[]{45, 60, 80},
                 new int[]{20, 35, 50});
 
