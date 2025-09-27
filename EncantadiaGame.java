@@ -65,12 +65,12 @@ public class EncantadiaGame {
         // New characters (players)
         Character jelian = new Character("Jelian (Goddes of Whispers)", "Air",
                 new String[]{"Carbon Dioxide", "Bad Breathe", "Utot"},
-                new int[]{40, 55, 70},
-                new int[]{20, 30, 40});
+                new int[]{40, 55, 70}; // this one is for the damage
+                new int[]{20, 30, 40}); // kani ang mana cost
 
         Character mary = new Character("Mary (Goddes of Tides)", "Water",
                 new String[]{"Luha", "Flood Control", "Tsunami"},
-                new int[]{35, 50, 65},
+                new int[]{35, 50, 65}, //same goes dre
                 new int[]{15, 25, 35});
 
         Character joygen = new Character("Joygen (Goddes of Eternal Blaze)", "Fire",
@@ -106,7 +106,7 @@ public class EncantadiaGame {
 
         // Choose player
         typePrint("Choose your Sang’gre:", 20);
-        typePrint("1. Jelian (Air)\n2. Mary (Water)\n3. Joygen (Fire)\n4. Dirk (Earth)", 10);
+        typePrint("1. Jelian (Goddess of Whispers)\n2. Mary (Goddess of Tides)\n3. Joygen (Goddess of Eternal Blaze )\n4. Dirk (God of Living Soil)", 10);
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
 
