@@ -47,12 +47,12 @@ public class EncantadiaGame {
 
     public static void main(String[] args) {
         // Welcome screen
-        typePrint("🌌✨ Avisala! Maligayang paglalakbay sa mundo ng Encantadia! ✨🌌", 30);
-        typePrint("Legends whisper of heroes who shaped the fate of kingdoms...", 30);
-        typePrint("Do you dare take the first step into destiny?", 30);
+        typePrint("🌌✨ Avisala! Maligayang paglalakbay sa mundo ng Encantadia! ✨🌌", 20);
+        typePrint("Legends whisper of heroes who shaped the fate of kingdoms...", 20);
+        typePrint("Do you dare take the first step into destiny?", 20);
         System.out.println("");
-        typePrint("⚔️ Press 1 to begin your journey.", 30);
-        typePrint("❌ Press any other key to turn back and remain in the ordinary world.", 30);
+        typePrint("⚔️ Press 1 to begin your journey.", 20);
+        typePrint("❌ Press any other key to turn back and remain in the ordinary world.", 20);
         System.out.println("");
         System.out.print("👉 Enter your choice: ");
         String start = sc.nextLine();
@@ -63,9 +63,14 @@ public class EncantadiaGame {
         }
 
         // Storyline
-        typePrint("\nLong ago, the four Sang’gres ruled Encantadia with their Brilyantes...", 20);
-        typePrint("But darkness has risen. To restore peace, you must defeat your rival Sang’gre...", 20);
-        typePrint("and reclaim their Brilyante to rule all of Encantadia! ⚔️\n", 20);
+        typePrint("Nonong Imaw:Long ago, there was peace in the kingdoms of Encantadia... ", 20);
+        typePrint("Under the guidance of the Queen and her four Sang’gres, harmony reigned. ", 20);
+        typePrint("But darkness soon came, for the Queen was taken by a mysterious rival... ", 20);
+        typePrint("The realms fell into despair, and the balance of power was broken. ", 20);
+        typePrint("\nTo discover the Queen’s fate, the Sang’gres must seek the four great Brilyantes— ", 20);
+        typePrint("the powerful gems that give life and strength to Encantadia itself. ", 20);
+        typePrint("Only by uniting these Brilyantes shall the truth be revealed... ", 20);
+        typePrint("and peace be restored once more. ⚔️\n", 20);
 
         // New characters (players)
         Character jelian = new Character("Jelian (Goddes of Whispers)", "Air",
