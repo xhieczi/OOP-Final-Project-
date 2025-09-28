@@ -18,11 +18,6 @@ public class EncantadiaGame {
         System.out.println();
     }
 
-    //setting(if what place ang na pili, enemy built in)
-    //loop would u like to proceed getting other brilyante
-    //if continue playing, low mana cost, increase skill damage
-    //enemy skill also increases
-
     // Character class
     static class Character {
         String name;
@@ -45,99 +40,11 @@ public class EncantadiaGame {
         }
     }
 
-    public static void main(String[] args) {
-        // Welcome screen
-        typePrint("🌌✨ Avisala! Maligayang paglalakbay sa mundo ng Encantadia! ✨🌌", 20);
-        typePrint("Legends whisper of heroes who shaped the fate of kingdoms...", 20);
-        typePrint("Do you dare take the first step into destiny?", 20);
-        System.out.println("");
-        typePrint("⚔️ Press 1 to begin your journey.", 20);
-        typePrint("❌ Press any other key to turn back and remain in the ordinary world.", 20);
-        System.out.println("");
-        System.out.print("👉 Enter your choice: ");
-        String start = sc.nextLine();
+    // Battle method
+    static boolean battle(Character player, Character enemy) {
+        typePrint("\n⚔️ You face " + enemy.name + "!", 20);
+        typePrint("The battle for the Brilyante of " + enemy.element + " begins!\n", 20);
 
-        if (!start.equals("1")) {
-            typePrint("The gates close... Encantadia shall await another soul brave enough to enter.", 10);
-            return;
-        }
-
-        // Storyline
-        typePrint("Nonong Imaw:Long ago, there was peace in the kingdoms of Encantadia... ", 20);
-        typePrint("Under the guidance of the Queen and her four Sang’gres, harmony reigned. ", 20);
-        typePrint("But darkness soon came, for the Queen was taken by a mysterious rival... ", 20);
-        typePrint("The realms fell into despair, and the balance of power was broken. ", 20);
-        typePrint("\nTo discover the Queen’s fate, the Sang’gres must seek the four great Brilyantes— ", 20);
-        typePrint("the powerful gems that give life and strength to Encantadia itself. ", 20);
-        typePrint("Only by uniting these Brilyantes shall the truth be revealed... ", 20);
-        typePrint("and peace be restored once more. ⚔️\n", 20);
-
-        // New characters (players)
-        Character jelian = new Character("Jelian (Goddes of Whispers)", "Air",
-                new String[]{"Carbon Dioxide", "Bad Breathe", "Utot"},
-                new int[]{40, 55, 70}, // this one is for the damage
-                new int[]{20, 30, 40}); // kani ang mana cost
-
-        Character mary = new Character("Mary (Goddes of Tides)", "Water",
-                new String[]{"Luha", "Flood Control", "Tsunami"},
-                new int[]{35, 50, 65}, //same goes dre
-                new int[]{15, 25, 35});
-
-        Character joygen = new Character("Joygen (Goddes of Eternal Blaze)", "Fire",
-                new String[]{"In Heat", "Hyperventilation", "Impyerno"},
-                new int[]{45, 60, 80},
-                new int[]{20, 35, 50});
-
-        Character dirk = new Character("Dirk (God of Living Soil)", "Earth",
-                new String[]{"Bato Dela Rosa", "Ding ang Bato", "Linog"},
-                new int[]{40, 55, 75},
-                new int[]{15, 30, 40});
-
-        // Original Sang’gres (enemies)
-        Character pirena = new Character("Pirena ()", "Fire",
-                new String[]{"In Heat", "Thirstrap", "Wow naay nasunog, wow wow wa wow"},
-                new int[]{45, 60, 80},
-                new int[]{20, 35, 50});
-
-        Character amihan = new Character("Amihan (Air)", "Air",
-                new String[]{"Wind Slash", "Storm Fury", "Whirlwind Strike"},
-                new int[]{40, 55, 70},
-                new int[]{20, 30, 40});
-
-        Character alena = new Character("Alena (Water)", "Water",
-                new String[]{"Water Spear", "Ocean Wave", "Tsunami Blast"},
-                new int[]{35, 50, 65},
-                new int[]{15, 25, 35});
-
-        Character danaya = new Character("Danaya (Earth)", "Earth",
-                new String[]{"Rock Smash", "Earthquake", "Nature’s Wrath"},
-                new int[]{40, 55, 75},
-                new int[]{15, 30, 40});
-
-        // Choose player
-        typePrint("Choose your Sang’gre:", 20);
-        typePrint("1. Jelian (Goddess of Whispers)\n2. Mary (Goddess of Tides)\n3. Joygen (Goddess of Eternal Blaze )\n4. Dirk (God of Living Soil)", 10);
-        System.out.print("Enter your choice: ");
-        int choice = sc.nextInt();
-
-        Character player = null;
-        Character enemy = null;
-
-        switch (choice) {
-            case 1 -> { player = jelian; enemy = amihan; }
-            case 2 -> { player = mary; enemy = alena; }
-            case 3 -> { player = joygen; enemy = pirena; }
-            case 4 -> { player = dirk; enemy = danaya; }
-            default -> {
-                typePrint("Invalid choice. Encantadia is lost without a champion...", 10);
-                return;
-            }
-        }
-
-        typePrint("\nYou chose " + player.name + "! Your opponent is " + enemy.name + "!", 10);
-        typePrint("The battle for the Brilyante begins!\n", 10);
-
-        // Battle loop
         while (player.isAlive() && enemy.isAlive()) {
             System.out.println("\n⚔️ " + player.name + " HP: " + player.health + " | " +
                     enemy.name + " HP: " + enemy.health);
@@ -161,7 +68,7 @@ public class EncantadiaGame {
                 typePrint("💥 " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
             }
 
-            // Enemy counterattack if alive
+            // Enemy counterattack
             if (enemy.isAlive()) {
                 int enemySkill = rand.nextInt(enemy.skills.length);
                 int dmg = enemy.damage[enemySkill];
@@ -172,14 +79,146 @@ public class EncantadiaGame {
             }
         }
 
-        // Game result
         if (player.isAlive()) {
             typePrint("\n🏆 " + player.name + " has defeated " + enemy.name + "!", 20);
             typePrint("You reclaimed the Brilyante of " + enemy.element + "! ✨", 20);
-            typePrint("Encantadia bows before your power!", 20);
+            return true;
         } else {
             typePrint("\n💀 " + player.name + " has fallen... The Brilyante remains with " + enemy.name + ".", 40);
-            typePrint("Encantadia is lost in darkness...", 20);
+            return false;
         }
+    }
+
+    public static void main(String[] args) {
+        // Welcome screen
+        typePrint("🌌✨ Avisala! Maligayang paglalakbay sa mundo ng Encantadia! ✨🌌", 20);
+        typePrint("Legends whisper of heroes who shaped the fate of kingdoms...", 20);
+        typePrint("Do you dare take the first step into destiny?", 20);
+        System.out.println("");
+        typePrint("⚔️ Press 1 to begin your journey.", 20);
+        typePrint("❌ Press any other key to turn back and remain in the ordinary world.", 20);
+        System.out.println("");
+        System.out.print("👉 Enter your choice: ");
+        String start = sc.nextLine();
+
+        if (!start.equals("1")) {
+            typePrint("The gates close... Encantadia shall await another soul brave enough to enter.", 10);
+            return;
+        }
+
+        // Storyline
+        typePrint("Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia... ", 20);
+        typePrint("Under the guidance of the Queen and her four Sang’gres, harmony reigned. ", 20);
+        typePrint("But darkness soon came, for the Queen was taken by a mysterious rival... ", 20);
+        typePrint("The realms fell into despair, and the balance of power was broken. ", 20);
+        typePrint("\nTo discover the Queen’s fate, the Sang’gres must seek the four great Brilyantes— ", 20);
+        typePrint("the powerful gems that give life and strength to Encantadia itself. ", 20);
+        typePrint("Only by uniting these Brilyantes shall the truth be revealed... ", 20);
+        typePrint("and peace be restored once more. ⚔️\n", 20);
+
+        // New characters (players)
+        Character jelian = new Character("Jelian (Goddess of Whispers)", "Air",
+                new String[]{"Carbon Dioxide", "Bad Breathe", "Utot"},
+                new int[]{40, 55, 70},
+                new int[]{20, 30, 40});
+
+        Character mary = new Character("Mary (Goddess of Tides)", "Water",
+                new String[]{"Luha", "Flood Control", "Tsunami"},
+                new int[]{35, 50, 65},
+                new int[]{15, 25, 35});
+
+        Character joygen = new Character("Joygen (Goddess of Eternal Blaze)", "Fire",
+                new String[]{"In Heat", "Hyperventilation", "Impyerno"},
+                new int[]{45, 60, 80},
+                new int[]{20, 35, 50});
+
+        Character dirk = new Character("Dirk (God of Living Soil)", "Earth",
+                new String[]{"Bato Dela Rosa", "Ding ang Bato", "Linog"},
+                new int[]{40, 55, 75},
+                new int[]{15, 30, 40});
+
+        // Original Sang’gres (enemies)
+        Character pirena = new Character("Pirena", "Fire",
+                new String[]{"In Heat", "Thirstrap", "Wow naay nasunog, wow wow wa wow"},
+                new int[]{45, 60, 80},
+                new int[]{20, 35, 50});
+
+        Character amihan = new Character("Amihan", "Air",
+                new String[]{"Wind Slash", "Storm Fury", "Whirlwind Strike"},
+                new int[]{40, 55, 70},
+                new int[]{20, 30, 40});
+
+        Character alena = new Character("Alena", "Water",
+                new String[]{"Water Spear", "Ocean Wave", "Tsunami Blast"},
+                new int[]{35, 50, 65},
+                new int[]{15, 25, 35});
+
+        Character danaya = new Character("Danaya", "Earth",
+                new String[]{"Rock Smash", "Earthquake", "Nature’s Wrath"},
+                new int[]{40, 55, 75},
+                new int[]{15, 30, 40});
+
+        // Choose player
+        typePrint("Choose your Sang’gre:", 20);
+        typePrint("1. Jelian (Goddess of Whispers)\n2. Mary (Goddess of Tides)\n3. Joygen (Goddess of Eternal Blaze)\n4. Dirk (God of Living Soil)", 10);
+        System.out.print("Enter your choice: ");
+        int choice = sc.nextInt();
+
+        Character player = null;
+        Character[] enemies = null;
+
+        switch (choice) {
+            case 1 -> { player = jelian; enemies = new Character[]{amihan, alena, pirena, danaya}; }
+            case 2 -> { player = mary; enemies = new Character[]{alena, pirena, danaya, amihan}; }
+            case 3 -> { player = joygen; enemies = new Character[]{pirena, amihan, alena, danaya}; }
+            case 4 -> { player = dirk; enemies = new Character[]{danaya, pirena, amihan, alena}; }
+            default -> {
+                typePrint("Invalid choice. Encantadia is lost without a champion...", 10);
+                return;
+            }
+        }
+
+        // Brilyante quest loop
+        int brilyantesCollected = 0;
+
+        for (Character en : enemies) {
+            en.health = 500; // reset enemy health
+
+            boolean won = battle(player, en);
+            if (!won) {
+                typePrint("Encantadia is lost in darkness... 💀", 20);
+                return;
+            }
+
+            brilyantesCollected++;
+            typePrint("You now hold " + brilyantesCollected + " Brilyante(s).", 20);
+
+            if (brilyantesCollected < 4) {
+                System.out.print("\nDo you wish to continue your quest for the remaining Brilyantes? (yes/no): ");
+                String cont = sc.next().toLowerCase();
+                if (!cont.equals("yes")) {
+                    typePrint("\n🌙 You chose to rest. Encantadia awaits your return...", 20);
+                    return;
+                } else {
+                    // Power up player
+                    for (int i = 0; i < player.damage.length; i++) {
+                        player.damage[i] += 10;
+                    }
+                    player.health = 500;
+
+                    // Power up all enemies slightly
+                    for (Character foe : enemies) {
+                        for (int i = 0; i < foe.damage.length; i++) {
+                            foe.damage[i] += 5;
+                        }
+                    }
+                    typePrint("\n💪 Your strength grows as your quest continues!", 20);
+                }
+            }
+        }
+
+        // Victory if all Brilyantes collected
+        typePrint("\n🌟 Congratulations! You have united all 4 Brilyantes!", 20);
+        typePrint("The truth is revealed... and peace returns to Encantadia! ✨", 20);
     }
 }
