@@ -47,13 +47,18 @@ public class EncantadiaGame {
 
     public static void main(String[] args) {
         // Welcome screen
-        typePrint("✨ Welcome to Encantadia! ✨", 30);
-        typePrint("Press 1 to begin your journey, or any other key to exit.", 30);
+        typePrint("🌌✨ Avisala! Maligayang paglalakbay sa mundo ng Encantadia! ✨🌌", 30);
+        typePrint("Legends whisper of heroes who shaped the fate of kingdoms...", 30);
+        typePrint("Do you dare take the first step into destiny?", 30);
         System.out.println("");
-        System.out.print("Enter your choice: ");
+        typePrint("⚔️ Press 1 to begin your journey.", 30);
+        typePrint("❌ Press any other key to turn back and remain in the ordinary world.", 30);
+        System.out.println("");
+        System.out.print("👉 Enter your choice: ");
         String start = sc.nextLine();
+
         if (!start.equals("1")) {
-            typePrint("Farewell, mortal. Encantadia awaits another hero...", 10);
+            typePrint("The gates close... Encantadia shall await another soul brave enough to enter.", 10);
             return;
         }
 
@@ -65,7 +70,7 @@ public class EncantadiaGame {
         // New characters (players)
         Character jelian = new Character("Jelian (Goddes of Whispers)", "Air",
                 new String[]{"Carbon Dioxide", "Bad Breathe", "Utot"},
-                new int[]{40, 55, 70}; // this one is for the damage
+                new int[]{40, 55, 70}, // this one is for the damage
                 new int[]{20, 30, 40}); // kani ang mana cost
 
         Character mary = new Character("Mary (Goddes of Tides)", "Water",
