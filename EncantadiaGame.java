@@ -42,6 +42,8 @@ public class EncantadiaGame {
 
     // Battle method
     static boolean battle(Character player, Character enemy) {
+        //here backstory
+        typePrint("\n🌌✨You chose " + player.name + ": Backstory dre guys 🌌✨", 15);
         typePrint("\n⚔️ You face " + enemy.name + "!", 15);
         typePrint("The battle for the Brilyante of " + enemy.element + " begins!\n", 15);
 
@@ -49,12 +51,15 @@ public class EncantadiaGame {
             System.out.println("\n⚔️ " + player.name + " HP: " + player.health + " | " +
                     enemy.name + " HP: " + enemy.health);
 
+
+            System.out.println("---------------------------------------------------------");
             // Player chooses skill
-            System.out.println("\nChoose a skill:");
+            System.out.println("Choose a skill:");
             for (int i = 0; i < player.skills.length; i++) {
                 // ✅ Removed mana and damage display
                 System.out.println((i + 1) + ". " + player.skills[i]);
             }
+            System.out.println();
             System.out.print("Enter your choice: ");
             int skillChoice = sc.nextInt();
 
@@ -62,8 +67,11 @@ public class EncantadiaGame {
                 typePrint("You missed your attack! 😱", 15);
             } else {
                 int dmg = player.damage[skillChoice - 1];
+                System.out.println();
+
                 typePrint(player.name + " used " + player.skills[skillChoice - 1] + "!", 10);
                 enemy.health -= dmg;
+                System.out.println("---------------------------------------------------------");
                 if (enemy.health < 0) enemy.health = 0;
                 typePrint("💥 " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
             }
@@ -91,10 +99,10 @@ public class EncantadiaGame {
 
     public static void main(String[] args) {
         // Welcome screen
-        typePrint("🌌✨ Avisala! Maligayang paglalakbay sa mundo ng Encantadia! ✨🌌", 15);
+        typePrint("\n\n🌌✨ Avisala! Maligayang paglalakbay sa mundo ng Encantadia! ✨🌌", 15);
         typePrint("Legends whisper of heroes who shaped the fate of kingdoms...", 15);
         typePrint("Do you dare take the first step into destiny?", 15);
-        System.out.println("");
+        System.out.println();
         typePrint("⚔️ Press 1 to begin your journey.", 15);
         typePrint("❌ Press any other key to turn back and remain in the ordinary world.", 15);
         System.out.println("");
@@ -107,6 +115,7 @@ public class EncantadiaGame {
         }
 
         // Storyline
+        System.out.println("---------------------------------------------------------------------------");
         typePrint("Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia... ", 15);
         typePrint("Under the guidance of the Queen and her four Sang’gres, harmony reigned. ", 15);
         typePrint("But darkness soon came, for the Queen was taken by a mysterious rival... ", 15);
@@ -159,7 +168,7 @@ public class EncantadiaGame {
                 new int[]{15, 30, 40});
 
         // Choose player
-        typePrint("Choose your Sang’gre:", 20);
+        typePrint("\nChoose your Sang’gre:", 20);
         typePrint("1. Jelian (Goddess of Whispers)\n2. Mary (Goddess of Tides)\n3. Joygen (Goddess of Eternal Blaze)\n4. Dirk (God of Living Soil)", 10);
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
