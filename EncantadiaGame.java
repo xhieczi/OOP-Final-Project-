@@ -52,7 +52,7 @@ public class EncantadiaGame {
                     enemy.name + " HP: " + enemy.health);
 
 
-            System.out.println("---------------------------------------------------------");
+            typePrint("---------------------------------------------------------", 10);
             // Player chooses skill
             System.out.println("Choose a skill:");
             for (int i = 0; i < player.skills.length; i++) {
@@ -105,7 +105,7 @@ public class EncantadiaGame {
         System.out.println();
         typePrint("⚔️ Press 1 to begin your journey.", 15);
         typePrint("❌ Press any other key to turn back and remain in the ordinary world.", 15);
-        System.out.println("");
+        System.out.println();
         System.out.print("👉 Enter your choice: ");
         String start = sc.nextLine();
 
@@ -113,7 +113,9 @@ public class EncantadiaGame {
             typePrint("The gates close... Encantadia shall await another soul brave enough to enter.", 10);
             return;
         }
+        //butangan turn until ma end
 
+        //every turn mo regen 20-30
         // Storyline
         System.out.println("---------------------------------------------------------------------------");
         typePrint("Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia... ", 15);
@@ -137,7 +139,7 @@ public class EncantadiaGame {
                 new int[]{15, 25, 35});
 
         Character Joygen = new Character("Joygen (Goddess of Eternal Blaze)", "Fire",
-                new String[]{"In Heat", "Hyperventilation", "Impyerno"},
+                new String[]{"In Heat", "Thirstrap", "Wow wow wow naay nasunog"},
                 new int[]{45, 60, 80},
                 new int[]{20, 35, 50});
 
@@ -148,14 +150,14 @@ public class EncantadiaGame {
 
         // Original Sang’gres (enemies)
         Character Pirena = new Character("Pirena", "Fire",
-                new String[]{"In Heat", "Thirstrap", "Wow naay nasunog, wow wow wa wow"},
+                new String[]{"Flame fury", "Hyperventilation", "Impyerno"},
                 new int[]{45, 60, 80},
                 new int[]{20, 35, 50});
 
         Character Amihan = new Character("Amihan", "Air",
                 new String[]{"Wind Slash", "Storm Fury", "Whirlwind Strike"},
-                new int[]{40, 55, 70},
-                new int[]{20, 30, 40});
+                new int[]{40, 55, 70}, // damage
+                new int[]{20, 30, 40}); // mana cost
 
         Character Alena = new Character("Alena", "Water",
                 new String[]{"Water Spear", "Ocean Wave", "Tsunami Blast"},
