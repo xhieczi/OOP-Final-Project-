@@ -96,19 +96,48 @@ public class EncantadiaGame {
             return false;
         }
     }
+     // Typewriter effect (inline, no newline at the end), for proper input
+    static void typePrintInline(String text, int delay) {
+        for (char c : text.toCharArray()) {
+            System.out.print(c);
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        // no println here
+    }
 
     public static void main(String[] args) {
         // Welcome screen
-        typePrint("\n\n🌌✨ Avisala! Maligayang paglalakbay sa mundo ng Encantadia! ✨🌌", 15);
-        typePrint("Legends whisper of heroes who shaped the fate of kingdoms...", 15);
-        typePrint("Do you dare take the first step into destiny?", 15);
-        System.out.println();
-        typePrint("⚔️ Press 1 to begin your journey.", 15);
-        typePrint("❌ Press any other key to turn back and remain in the ordinary world.", 15);
-        System.out.println();
-        System.out.print("👉 Enter your choice: ");
-        String start = sc.nextLine();
+            //Start of Menu Page Program
+        prt.print("\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        typePrint("  ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦", 8); // booting purposes
+        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        typePrint("           \uD835\uDD08\uD835\uDD2B\uD835\uDD20\uD835\uDD1E\uD835\uDD2B\uD835\uDD31\uD835\uDD1E\uD835\uDD21\uD835\uDD26\uD835\uDD1E : \uD835\uDD4B\uD835\uDD66\uD835\uDD63\uD835\uDD5F  \uD835\uDD60\uD835\uDD57  \uD835\uDD65\uD835\uDD59\uD835\uDD56  \uD835\uDD3E\uD835\uDD56\uD835\uDD5E\uD835\uDD64  ", 8);
+        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        typePrint("  ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦", 8);
+        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        for (int i1 = 1; i1 <= 15; i1++) {
+            prt.print("=====");
+        }
 
+        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+    🌌✨ Avisala! Maligayang paglalakbay sa mundo ng Encantadia! ✨🌌   +", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       Legends whisper of heroes who shaped the fate of kingdoms...      +" , 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+              Do you dare take the first step into destiny?              +", 8);
+        prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                         +");
+        prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         ---------------------------------------------------------       +");
+        prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                         +");
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ ⚔️ Press 1 to begin your journey.                                       + ", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ ❌ Press any other key to turn back and remain in the ordinary world.   +", 8);
+        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        for (int i2 = 1; i2 <= 15; i2++) {
+            prt.print("=====");
+            }
+        typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t 👉 Choose Your Fate: ", 8);
+            String start = sc.nextLine();
+        //End of Menu Page Program
         if (!start.equals("1")) {
             typePrint("The gates close... Encantadia shall await another soul brave enough to enter.", 10);
             return;
