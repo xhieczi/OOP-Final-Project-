@@ -84,7 +84,7 @@ public class EncantadiaGame {
             // Player chooses skill
             System.out.println("Choose a skill:");
             for (int i = 0; i < player.skills.length; i++) {
-                // ✅ display mana and damage display
+                // ✅ display damage cost
 
                 System.out.println((i + 1) + ". " + player.skills[i] +
             "  🔥 Damage: " + player.damage[i]);
