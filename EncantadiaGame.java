@@ -6,6 +6,7 @@ public class EncantadiaGame {
     static Random rand = new Random();
     static PrintStream prt = System.out;
     static showJelianAndAmihan JAAB = new showJelianAndAmihan();
+    static int turn = 1;
 
     // Typewriter effect
     static void typePrint(String text, int delay) {
@@ -69,10 +70,15 @@ public class EncantadiaGame {
             }
         }
 
+        //added number of turns here - MryyClrr
         while (player.isAlive() && enemy.isAlive()) {
+
+            System.out.println("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t═══════════════════════════════════════════════════");
+            System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t                      TURN " + turn + " ⚔️");
+            System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t═══════════════════════════════════════════════════");
+
             System.out.println("\n[⚔️] " + player.name + " HP: " + player.health + " | " +
                     enemy.name + " HP: " + enemy.health);
-
 
             typePrint("---------------------------------------------------------", 10);
             // Player chooses skill
@@ -107,6 +113,7 @@ public class EncantadiaGame {
                 if (player.health < 0) player.health = 0;
                 typePrint("[🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
             }
+            turn++;
         }
 
         if (player.isAlive()) {
@@ -181,33 +188,63 @@ public class EncantadiaGame {
                 return;
             }
 
-
-
             //butangan turn until ma end
+        //every turn mo regen 20-3
 
-            //every turn mo regen 20-30
-            // Storyline
-            prt.println("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Press enter key [⌤] to skip cutscene]");
-            prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-            for (int i1 = 1; i1 <= 18; i1++) {
-                prt.print("=====");
-            }
+        // Storyline (with skip option) - Updated Version (1 = Discover, 0 = Skip) - MryyClrr
+        boolean validInput = false;
 
-            prt.println();
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia...                +", 20);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ Under the guidance of the Queen and her four Sang’gres, harmony reigned.               +", 20);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ But darkness soon came, for the Queen was taken by a mysterious rival...               +", 20);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ The realms fell into despair, and the balance of power was broken.                     +", 20);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                        +", 10);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ To discover the Queen’s fate, the Sang’gres must seek the four great Brilyantes—       +", 20);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ the powerful gems that give life and strength to Encantadia itself.                    +", 20);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ Only by uniting these Brilyantes shall the truth be revealed...                        +", 20);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ and peace be restored once more. [⚔️]                                                  +", 20);
-            prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-            for (int i1 = 1; i1 <= 18; i1++) {
-                prt.print("=====");
+        while (!validInput) {
+            try {
+                prt.println("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t       [Press [1] to Discover \uD83E\uDEB6 or [0] to Skip ⚔\uFE0F and Start the Game]");
+                prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                for (int i1 = 1; i1 <= 18; i1++) {
+                    prt.print("=====");
+                }
+
+                prt.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t       Enter your choice: ");
+                String input = sc.nextLine().trim();
+
+                if (input.equals("0")) {
+                    validInput = true;
+                    System.out.println(" ");
+                    prt.println("                                                                                     Skipping... Maghanda mandirigma!");
+                    break;
+                } else if (input.equals("1")) {
+                    validInput = true;
+                    prt.println();
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+            ------------------------- ✨ ANG NAKARAAN ✨ -------------------------                 +", 20);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                                   +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+            Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia...                +", 20);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+            Under the guidance of the Queen and her four Sang’gres, harmony reigned.               +", 20);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+            But darkness soon came, for the Queen was taken by a mysterious rival...               +", 20);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+            The realms fell into despair, and the balance of power was broken.                     +", 20);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                                   +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+            To discover the Queen’s fate, the Sang’gres must seek the four great Brilyantes—       +", 20);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+            the powerful gems that give life and strength to Encantadia itself.                    +", 20);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+            Only by uniting these Brilyantes shall the truth be revealed and peace be...                        +", 20);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+            restored once more. [⚔️]                                                               +", 20);
+                    prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                    for (int i1 = 1; i1 <= 18; i1++) {
+                        prt.print("=====");
+                    }
+                    break;
+                } else {
+                    throw new IllegalArgumentException("                                                                   Invalid Input!");
+
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(" ");
+                System.out.println("                                                                                     Ashtadi! Please enter only [1] or [0].");
+            } catch (Exception e) {
+                System.out.println(" ");
+                System.out.println("                                                                                     Patawad... Please try again.");
+                sc.nextLine();
             }
-            // New characters (players)
+        }
+
+
+        // New characters (players)
             Character Jelian = new Character("Jelian (Goddess of Whispers)", "Air",
                     new String[]{"Carbon Dioxide", "Bad Breathe", "Utot"},
                     new int[]{40, 55, 70},
