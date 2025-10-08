@@ -1,9 +1,11 @@
-package FinalProject;
 import java.util.*;
+import java.io.*;
 
 public class EncantadiaGame {
     static Scanner sc = new Scanner(System.in);
     static Random rand = new Random();
+    static PrintStream prt = System.out;
+    static showJelianAndAmihan JAAB = new showJelianAndAmihan();
 
     // Typewriter effect
     static void typePrint(String text, int delay) {
@@ -41,14 +43,34 @@ public class EncantadiaGame {
     }
 
     // Battle method
-    static boolean battle(Character player, Character enemy) {
+    static boolean battle(Character player, Character enemy, int choice) {
         //here backstory
-        typePrint("\n🌌✨You chose " + player.name + ": Backstory dre guys 🌌✨", 15);
-        typePrint("\n⚔️ You face " + enemy.name + "!", 15);
-        typePrint("The battle for the Brilyante of " + enemy.element + " begins!\n", 15);
+        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        for (int i2 = 1; i2 <= 17; i2++) {
+            prt.print("=====");
+        }
+        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [🌌][✨]You chose " + player.name + " [🌌][✨] +", 1);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [⚔️] You will face " + enemy.name + "!      +", 1);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ The battle for the Brilyante of " + enemy.element + " begins!", 1);
+
+        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        for (int i2 = 1; i2 <= 17; i2++) {
+            prt.print("=====");
+        }
+
+        switch (choice) {
+            case 1 -> {
+                JAAB.showBackstoryMain();
+                break;
+            }
+            case 2 -> {
+
+                break;
+            }
+        }
 
         while (player.isAlive() && enemy.isAlive()) {
-            System.out.println("\n⚔️ " + player.name + " HP: " + player.health + " | " +
+            System.out.println("\n[⚔️] " + player.name + " HP: " + player.health + " | " +
                     enemy.name + " HP: " + enemy.health);
 
 
@@ -56,16 +78,15 @@ public class EncantadiaGame {
             // Player chooses skill
             System.out.println("Choose a skill:");
             for (int i = 0; i < player.skills.length; i++) {
-                // ✅ Display mana and damage display
-                System.out.println((i + 1) + ". " + player.skills[i] +
-            "  🔥 Damage: " + player.damage[i]);
+                // ✅ Removed mana and damage display
+                System.out.println((i + 1) + ". " + player.skills[i]);
             }
             System.out.println();
             System.out.print("Enter your choice: ");
             int skillChoice = sc.nextInt();
 
             if (skillChoice < 1 || skillChoice > player.skills.length) {
-                typePrint("You missed your attack! 😱", 15);
+                typePrint("You missed your attack! [😱]", 15);
             } else {
                 int dmg = player.damage[skillChoice - 1];
                 System.out.println();
@@ -74,7 +95,7 @@ public class EncantadiaGame {
                 enemy.health -= dmg;
                 System.out.println("---------------------------------------------------------");
                 if (enemy.health < 0) enemy.health = 0;
-                typePrint("💥 " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
+                typePrint("[💥] " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
             }
 
             // Enemy counterattack
@@ -84,20 +105,21 @@ public class EncantadiaGame {
                 typePrint(enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
                 player.health -= dmg;
                 if (player.health < 0) player.health = 0;
-                typePrint("🔥 " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
+                typePrint("[🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
             }
         }
 
         if (player.isAlive()) {
-            typePrint("\n🏆 " + player.name + " has defeated " + enemy.name + "!", 15);
-            typePrint("You reclaimed the Brilyante of " + enemy.element + "! ✨", 15);
+            typePrint("\n[🏆] " + player.name + " has defeated " + enemy.name + "!", 15);
+            typePrint("You reclaimed the Brilyante of " + enemy.element + "! [✨]", 15);
             return true;
         } else {
-            typePrint("\n💀 " + player.name + " has fallen... The Brilyante remains with " + enemy.name + ".", 20);
+            typePrint("\n[💀] " + player.name + " has fallen... The Brilyante remains with " + enemy.name + ".", 20);
             return false;
         }
     }
-     // Typewriter effect (inline, no newline at the end), for proper input
+        //First
+    // Typewriter effect (inline, no newline at the end), for proper input
     static void typePrintInline(String text, int delay) {
         for (char c : text.toCharArray()) {
             System.out.print(c);
@@ -116,7 +138,7 @@ public class EncantadiaGame {
         prt.print("\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         typePrint("  ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦", 8); // booting purposes
         prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-        typePrint("           \uD835\uDD08\uD835\uDD2B\uD835\uDD20\uD835\uDD1E\uD835\uDD2B\uD835\uDD31\uD835\uDD1E\uD835\uDD21\uD835\uDD26\uD835\uDD1E : \uD835\uDD4B\uD835\uDD66\uD835\uDD63\uD835\uDD5F  \uD835\uDD60\uD835\uDD57  \uD835\uDD65\uD835\uDD59\uD835\uDD56  \uD835\uDD3E\uD835\uDD56\uD835\uDD5E\uD835\uDD64  ", 8);
+        typePrint("    ☁  ⛰   \uD835\uDD08\uD835\uDD2B\uD835\uDD20\uD835\uDD1E\uD835\uDD2B\uD835\uDD31\uD835\uDD1E\uD835\uDD21\uD835\uDD26\uD835\uDD1E : \uD835\uDD4B\uD835\uDD66\uD835\uDD63\uD835\uDD5F  \uD835\uDD60\uD835\uDD57  \uD835\uDD65\uD835\uDD59\uD835\uDD56  \uD835\uDD3E\uD835\uDD56\uD835\uDD5E\uD835\uDD64  \uD83C\uDF0A \uD83D\uDD25 ", 8);
         prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         typePrint("  ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦", 8);
         prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
@@ -124,142 +146,214 @@ public class EncantadiaGame {
             prt.print("=====");
         }
 
-        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+    🌌✨ Avisala! Maligayang paglalakbay sa mundo ng Encantadia! ✨🌌   +", 8);
+        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+[🌌][✨]Avisala! Maligayang paglalakbay sa mundo ng Encantadia![✨][🌌] +", 8);
         typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       Legends whisper of heroes who shaped the fate of kingdoms...      +" , 8);
         typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+              Do you dare take the first step into destiny?              +", 8);
         prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                         +");
         prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         ---------------------------------------------------------       +");
         prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                         +");
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ ⚔️ Press 1 to begin your journey.                                       + ", 8);
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ ❌ Press any other key to turn back and remain in the ordinary world.   +", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [⚔️] Press 1 to begin your journey.                                     + ", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [❌] Press any other key to turn back and remain in the ordinary world. +", 8);
         prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 15; i2++) {
             prt.print("=====");
             }
-        typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t 👉 Choose Your Fate: ", 8);
+        typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[👉] Choose Your Fate: ", 8);
             String start = sc.nextLine();
         //End of Menu Page Program
-        if (!start.equals("1")) {
-            typePrint("The gates close... Encantadia shall await another soul brave enough to enter.", 10);
-            return;
-        }
-        //butangan turn until ma end
 
-        //every turn mo regen 20-30
-        // Storyline
-        System.out.println("---------------------------------------------------------------------------");
-        typePrint("Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia... ", 15);
-        typePrint("Under the guidance of the Queen and her four Sang’gres, harmony reigned. ", 15);
-        typePrint("But darkness soon came, for the Queen was taken by a mysterious rival... ", 15);
-        typePrint("The realms fell into despair, and the balance of power was broken. ", 15);
-        typePrint("\nTo discover the Queen’s fate, the Sang’gres must seek the four great Brilyantes— ", 15);
-        typePrint("the powerful gems that give life and strength to Encantadia itself. ", 15);
-        typePrint("Only by uniting these Brilyantes shall the truth be revealed... ", 15);
-        typePrint("and peace be restored once more. ⚔️\n", 15);
+            if (!start.equals("1")) {
+                prt.println();
+                prt.println();
+                prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                for (int i2 = 1; i2 <= 17; i2++) {
+                    prt.print("=====");
+                }
 
-        // New characters (players)
-        Character Jelian = new Character("Jelian (Goddess of Whispers)", "Air",
-                new String[]{"Carbon Dioxide", "Bad Breathe", "Utot"},
-                new int[]{40, 55, 70},
-                new int[]{20, 30, 40});
-
-        Character Mary = new Character("Mary (Goddess of Tides)", "Water",
-                new String[]{"Luha", "Flood Control", "Tsunami"},
-                new int[]{35, 50, 65},
-                new int[]{15, 25, 35});
-
-        Character Joygen = new Character("Joygen (Goddess of Eternal Blaze)", "Fire",
-                new String[]{"In Heat", "Thirstrap", "Wow wow wow naay nasunog"},
-                new int[]{45, 60, 80},
-                new int[]{20, 35, 50});
-
-        Character Dirk = new Character("Dirk (God of Living Soil)", "Earth",
-                new String[]{"Bato Dela Rosa", "Ding ang Bato", "Linog"},
-                new int[]{40, 55, 75},
-                new int[]{15, 30, 40});
-
-        // Original Sang’gres (enemies)
-        Character Pirena = new Character("Pirena", "Fire",
-                new String[]{"Flame fury", "Hyperventilation", "Impyerno"},
-                new int[]{45, 60, 80},
-                new int[]{20, 35, 50});
-
-        Character Amihan = new Character("Amihan", "Air",
-                new String[]{"Wind Slash", "Storm Fury", "Whirlwind Strike"},
-                new int[]{40, 55, 70}, // damage
-                new int[]{20, 30, 40}); // mana cost
-
-        Character Alena = new Character("Alena", "Water",
-                new String[]{"Water Spear", "Ocean Wave", "Tsunami Blast"},
-                new int[]{35, 50, 65},
-                new int[]{15, 25, 35});
-
-        Character Danaya = new Character("Danaya", "Earth",
-                new String[]{"Rock Smash", "Earthquake", "Nature’s Wrath"},
-                new int[]{40, 55, 75},
-                new int[]{15, 30, 40});
-
-        // Choose player
-        typePrint("\nChoose your Sang’gre:", 20);
-        typePrint("1. Jelian (Goddess of Whispers)\n2. Mary (Goddess of Tides)\n3. Joygen (Goddess of Eternal Blaze)\n4. Dirk (God of Living Soil)", 10);
-        System.out.print("Enter your choice: ");
-        int choice = sc.nextInt();
-
-        Character player = null;
-        Character[] enemies = null;
-
-        switch (choice) {
-            case 1 -> { player = Jelian; enemies = new Character[]{Amihan, Alena, Pirena, Danaya}; }
-            case 2 -> { player = Mary; enemies = new Character[]{Alena, Pirena, Danaya, Amihan}; }
-            case 3 -> { player = Joygen; enemies = new Character[]{Pirena, Amihan, Alena, Danaya}; }
-            case 4 -> { player = Dirk; enemies = new Character[]{Danaya, Pirena, Amihan, Alena}; }
-            default -> {
-                typePrint("Invalid choice. Encantadia is lost without a champion...", 10);
-                return;
-            }
-        }
-
-        // Brilyante quest loop
-        int brilyantesCollected = 0;
-
-        for (Character en : enemies) {
-            en.health = 500; // reset enemy health
-
-            boolean won = battle(player, en);
-            if (!won) {
-                typePrint("Encantadia is lost in darkness... 💀", 15);
+                prt.println();
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         ✰            ᚢ                                ☩                          +", 3);
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ The gates are closing. Encantadia shall await another soul brave enough to enter. +", 8);
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                    ⊕        ⊙                              ✦                      +", 3);
+                prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                for (int i2 = 1; i2 <= 17; i2++) {
+                    prt.print("=====");
+                }
                 return;
             }
 
-            brilyantesCollected++;
-            typePrint("You now hold " + brilyantesCollected + " Brilyante(s).", 15);
 
-            if (brilyantesCollected < 4) {
-                System.out.print("\nDo you wish to continue your quest for the remaining Brilyantes? (Yes/No): ");
-                String cont = sc.next().toLowerCase();
-                if (!cont.equals("yes")) {
-                    typePrint("\n🌙 You chose to rest. Encantadia awaits your return...", 15);
+
+            //butangan turn until ma end
+
+            //every turn mo regen 20-30
+            // Storyline
+            prt.println("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Press enter key [⌤] to skip cutscene]");
+            prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+            for (int i1 = 1; i1 <= 18; i1++) {
+                prt.print("=====");
+            }
+
+            prt.println();
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia...                +", 20);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ Under the guidance of the Queen and her four Sang’gres, harmony reigned.               +", 20);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ But darkness soon came, for the Queen was taken by a mysterious rival...               +", 20);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ The realms fell into despair, and the balance of power was broken.                     +", 20);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                        +", 10);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ To discover the Queen’s fate, the Sang’gres must seek the four great Brilyantes—       +", 20);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ the powerful gems that give life and strength to Encantadia itself.                    +", 20);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ Only by uniting these Brilyantes shall the truth be revealed...                        +", 20);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ and peace be restored once more. [⚔️]                                                  +", 20);
+            prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+            for (int i1 = 1; i1 <= 18; i1++) {
+                prt.print("=====");
+            }
+            // New characters (players)
+            Character Jelian = new Character("Jelian (Goddess of Whispers)", "Air",
+                    new String[]{"Carbon Dioxide", "Bad Breathe", "Utot"},
+                    new int[]{40, 55, 70},
+                    new int[]{20, 30, 40});
+
+            Character Mary = new Character("Mary (Goddess of Tides)", "Water",
+                    new String[]{"Luha", "Flood Control", "Tsunami"},
+                    new int[]{35, 50, 65},
+                    new int[]{15, 25, 35});
+
+            Character Joygen = new Character("Joygen (Goddess of Eternal Blaze)", "Fire",
+                    new String[]{"In Heat", "Thirstrap", "Wow wow wow naay nasunog"},
+                    new int[]{45, 60, 80},
+                    new int[]{20, 35, 50});
+
+            Character Dirk = new Character("Dirk (God of Living Soil)", "Earth",
+                    new String[]{"Bato Dela Rosa", "Ding ang Bato", "Linog"},
+                    new int[]{40, 55, 75},
+                    new int[]{15, 30, 40});
+
+            // Original Sang’gres (enemies)
+            Character Pirena = new Character("Pirena", "Fire",
+                    new String[]{"Flame fury", "Hyperventilation", "Impyerno"},
+                    new int[]{45, 60, 80},
+                    new int[]{20, 35, 50});
+
+            Character Amihan = new Character("Amihan", "Air",
+                    new String[]{"Wind Slash", "Storm Fury", "Whirlwind Strike"},
+                    new int[]{40, 55, 70}, // damage
+                    new int[]{20, 30, 40}); // mana cost
+
+            Character Alena = new Character("Alena", "Water",
+                    new String[]{"Water Spear", "Ocean Wave", "Tsunami Blast"},
+                    new int[]{35, 50, 65},
+                    new int[]{15, 25, 35});
+
+            Character Danaya = new Character("Danaya", "Earth",
+                    new String[]{"Rock Smash", "Earthquake", "Nature’s Wrath"},
+                    new int[]{40, 55, 75},
+                    new int[]{15, 30, 40});
+
+            // Choose player
+            prt.print("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+            for (int i2 = 1; i2 <= 15; i2++) {
+                prt.print("=====");
+            }
+            typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t  ~ ~ ~ ~ ~ ~ ~ ~$[Lair of the Sang'gres]$~ ~ ~ ~ ~ ~ ~ ~\t\t  +", 8);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t                                                         \t\t  +", 8);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t                                                         \t\t  +", 8);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [1] Jelian (Goddess of Whispers)\t\t\t\t\t\t\t\t\t\t  +", 8);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [2] Mary (Goddess of Tides)\t\t\t\t\t\t\t\t\t\t\t  +", 8);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [3] Joygen (Goddess of Eternal Blaze)\t\t\t\t\t\t\t\t\t  +", 8);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [4] Dirk (God of Living Soil)\t\t\t\t\t\t\t\t\t\t\t  +", 8);
+            prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+            for (int i2 = 1; i2 <= 15; i2++) {
+                prt.print("=====");
+            }
+            typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tChoose your Sang'gre: ", 3);
+            int choice = sc.nextInt();
+
+            // Game Loading Emphasis
+            typePrint("                         \n", 4);
+            typePrint("                         \n", 4);
+            typePrint("                         \n", 4);
+
+            Character player = null;
+            Character[] enemies = null;
+
+            switch (choice) {
+                case 1 -> {
+                    player = Jelian;
+                    enemies = new Character[]{Amihan, Alena, Pirena, Danaya};
+                    JAAB.showBackstoryMain();
+                }
+                case 2 -> {
+                    player = Mary;
+                    enemies = new Character[]{Alena, Pirena, Danaya, Amihan};
+                }
+                case 3 -> {
+                    player = Joygen;
+                    enemies = new Character[]{Pirena, Amihan, Alena, Danaya};
+                }
+                case 4 -> {
+                    player = Dirk;
+                    enemies = new Character[]{Danaya, Pirena, Amihan, Alena};
+                }
+                default -> {
+                    //Default Character Choice Page
+                    prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                    for (int i2 = 1; i2 <= 15; i2++) {
+                        prt.print("=====");
+                    }
+
+                    prt.println();
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                         +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ That Sang'gre does not exist! Encantadia is lost without a champion...  +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                         +", 10);
+                    prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                    for (int i2 = 1; i2 <= 15; i2++) {
+                        prt.print("=====");
+                    }
                     return;
-                } else {
-                    // Power up player
-                    for (int i = 0; i < player.damage.length; i++) {
-                        player.damage[i] += 10;
-                    }
-                    player.health = 500;
-
-                    // Power up all enemies slightly
-                    for (Character foe : enemies) {
-                        for (int i = 0; i < foe.damage.length; i++) {
-                            foe.damage[i] += 5;
-                        }
-                    }
-                    typePrint("\n💪 Your strength grows as your quest continues!", 15);
                 }
             }
-        }
 
-        // Victory if all Brilyantes collected
-        typePrint("\n🌟 Congratulations! You have united all 4 Brilyantes!", 15);
-        typePrint("The truth is revealed... and peace returns to Encantadia! ✨", 15);
+            // Brilyante quest loop
+            int brilyantesCollected = 0;
+
+            for (Character en : enemies) {
+                en.health = 500; // reset enemy health
+
+                boolean won = battle(player, en, choice);
+                if (!won) {
+                    typePrint("Encantadia is lost in darkness... [💀]", 15);
+                    return;
+                }
+
+                brilyantesCollected++;
+                typePrint("You now hold " + brilyantesCollected + " Brilyante(s).", 15);
+
+                if (brilyantesCollected < 4) {
+                    System.out.print("\nDo you wish to continue your quest for the remaining Brilyantes? (Yes/No): ");
+                    String cont = sc.next().toLowerCase();
+                    if (!cont.equals("yes")) {
+                        typePrint("\n[🌙] You chose to rest. Encantadia awaits your return...", 15);
+                        return;
+                    } else {
+                        // Power up player
+                        for (int i = 0; i < player.damage.length; i++) {
+                            player.damage[i] += 10;
+                        }
+                        player.health = 500;
+
+                        // Power up all enemies slightly
+                        for (Character foe : enemies) {
+                            for (int j = 0; j < foe.damage.length; j++) {
+                                foe.damage[j] += 5;
+                            }
+                        }
+                        typePrint("\n[💪] Your strength grows as your quest continues!", 15);
+                    }
+                }
+            }
+
+            // Victory if all Brilyantes collected
+            typePrint("\n[🌟] Congratulations! You have united all 4 Brilyantes!", 15);
+            typePrint("The truth is revealed... and peace returns to Encantadia! [✨]", 15);
+        }
     }
-}
