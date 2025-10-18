@@ -1,20 +1,18 @@
 public class showJoygenAndPerina extends Backstory {
     @Override
     public void showBackstoryMain(){
-        prt.print("\n\t\t\t\t\t\t\t\t\t");
+        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 17; i2++) {
             prt.print("=====");
         }
-        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t+   ✦✦✦✦✦✦✦✦✦✦✦               [ Sangre Joygen ]                ✦✦✦✦✦✦✦✦✦✦✦    +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+                                                                                   +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+   Born from a spark that lit the first star, controls fire to create              +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+   life or destroy evil. She can purify souls with flames, command sunlight        +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+   to grow crops or burn lands, forge weapons that never break, and help           +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+   beings rise a new from ashes. But her power fades in darkness, and              +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+   if misused, her fires rage uncontrollably.                                       +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+                                                                                   +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+   ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦   +", 8);
-        prt.print("\t\t\t\t\t\t\t\t\t");
+
+        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t +", 8);
+        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ Born from a spark that lit the first star, controls fire to create life or destroy evil.  +", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ She can purify souls with flames, command sunlight to grow crops or burn lands, forge weapons that never break, and help beings rise a new from ashes. +", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ But her power fades in darkness, and if misused, her fires rage uncontrollably. +", 8);
+        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t +", 8);
+        prt.println();
+        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 17; i2++) {
             prt.print("=====");
         }
