@@ -9,7 +9,6 @@ public class GameMode {
         prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
-
         EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ ✦✦✦ Choose Your Game Mode ✦✦✦ +", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [1] Player vs Player (Manual Battle)  +", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [2] Player vs Enemy (Normal Mode)     +", 8);
@@ -18,10 +17,20 @@ public class GameMode {
         prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
-        EncantadiaGame.typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEnter your choice: ", 3);
+        int mode = -1;
+        boolean validInput = false;
 
-        int mode = sc.nextInt();
-        sc.nextLine(); // clear buffer
+        while (!validInput) {
+            EncantadiaGame.typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEnter your choice: ", 3);
+            try {
+                mode = sc.nextInt();
+                sc.nextLine(); // clear buffer
+                validInput = true;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tInvalid input! Please enter a number (1–3).");
+                sc.nextLine(); // clear invalid input
+            }
+        }
 
         String modeName = switch (mode) {
             case 1 -> "Player vs Player (Manual Battle)";

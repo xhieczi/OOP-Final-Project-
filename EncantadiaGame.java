@@ -86,11 +86,19 @@ public class EncantadiaGame {
             for (int i = 0; i < player.skills.length; i++) {
                 // ✅ Display damage cost
                 System.out.println((i + 1) + ". " + player.skills[i] +
-            "  🔥 Damage: " + player.damage[i]);
+                        "  🔥 Damage: " + player.damage[i]);
             }
             System.out.println();
             System.out.print("Enter your choice: ");
-            int skillChoice = sc.nextInt();
+
+            int skillChoice;
+
+            try {
+                skillChoice = sc.nextInt();
+            } catch (java.util.InputMismatchException e) {
+                sc.nextLine(); // clear invalid input
+                skillChoice = -1; // treat as a miss
+            }
 
             if (skillChoice < 1 || skillChoice > player.skills.length) {
                 typePrint("You missed your attack! [😱]", 15);
@@ -299,8 +307,35 @@ public class EncantadiaGame {
         for (int i2 = 1; i2 <= 15; i2++) {
             prt.print("=====");
         }
-        typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tChoose your Sang'gre: ", 3);
-        int choice = sc.nextInt();
+        int choice = -1;
+        boolean validChoice = false;
+
+        while (!validChoice) {
+            typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tChoose your Sang'gre: ", 3);
+            try {
+                // read the entire line and trim it
+                if (!sc.hasNextLine()) {
+                    System.out.println("\nNo input available. Exiting.");
+                    break;
+                }
+                String line = sc.nextLine().trim();
+
+                // try parse integer
+                choice = Integer.parseInt(line);
+
+                // validate range (1..4)
+                if (choice < 1 || choice > 4) {
+                    System.out.println("\nPlease enter a number between 1 and 4.");
+                    continue;
+                }
+
+                validChoice = true; // valid numeric input in range, exit loop
+
+            } catch (NumberFormatException e) {
+                System.out.println("\nInvalid input! Please enter a number between 1 and 4.");
+            }
+        }
+
 
 // Loading spacing
         typePrint("                         \n", 4);
