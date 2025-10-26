@@ -49,36 +49,37 @@ public class EncantadiaGame {
         }
     }
 
-    // Battle method with fixed enemy backstory display
+    // Battle method with cooldown
     static boolean battle(Character player, Character enemy, int choice) {
         // Header
         prt.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-        for (int i2 = 1; i2 <= 17; i2++) {
-            prt.print("=====");
-        }
+        for (int i2 = 1; i2 <= 17; i2++) prt.print("=====");
 
         typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t              [🌌][✨]You chose " + player.name + " [🌌][✨]             ", 1);
         typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t                   [⚔️] You will face " + enemy.name + "!                     ", 1);
         typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t                 The battle for the Brilyante of " + enemy.element + " begins!                     ", 1);
 
         prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-        for (int i2 = 1; i2 <= 17; i2++) {
-            prt.print("=====");
-        }
+        for (int i2 = 1; i2 <= 17; i2++) prt.print("=====");
         prt.println("\n");
 
-        // --- Show enemy backstory ---
+        // Show enemy backstory
         switch (enemy.name) {
             case "Amihan" -> JAAB.showBackstoryMain();
             case "Alena" -> MAAB.showBackstoryMain();
-            case "Pirena" -> JAPB.showBackstoryOG(); // Pirena uses showBackstoryOG()
+            case "Pirena" -> JAPB.showBackstoryOG();
             case "Danaya" -> DAAB.showBackstoryMain();
             case "Mary (Goddess of Tides)" -> MAAB.showBackstoryMain();
-            case "Joygen (Goddess of Eternal Blaze)" -> JAPB.showBackstoryMain(); // Joygen uses showBackstoryMain()
+            case "Joygen (Goddess of Eternal Blaze)" -> JAPB.showBackstoryMain();
             case "Dirk (God of Living Soil)" -> DAAB.showBackstoryMain();
             case "Jelian (Goddess of Whispers)" -> JAAB.showBackstoryMain();
             default -> System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [⚠️] No backstory available.");
         }
+
+        // --- Cooldown setup ---
+        int[] skillCooldown = new int[player.skills.length]; // cooldown duration for each skill
+        int[] currentCooldown = new int[player.skills.length]; // turns left for each skill
+        Arrays.fill(currentCooldown, 0); // all skills ready at start
 
         // Battle loop
         while (player.isAlive() && enemy.isAlive()) {
@@ -95,9 +96,12 @@ public class EncantadiaGame {
             // Player chooses skill
             System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a skill:");
             for (int i = 0; i < player.skills.length; i++) {
-                System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + player.skills[i] +
+                System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + player.skills[i] +
                         "  🔥 Damage: " + player.damage[i]);
+                if (currentCooldown[i] > 0) System.out.print("  ⏳ Cooldown: " + currentCooldown[i] + " turn(s)");
+                System.out.println();
             }
+
             System.out.println();
             System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Cast your skill: ");
 
@@ -109,19 +113,23 @@ public class EncantadiaGame {
                 skillChoice = -1; // treat as a miss
             }
 
+            // Validate skill choice
             if (skillChoice < 1 || skillChoice > player.skills.length) {
                 typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t You missed your attack! [😱]", 15);
+            } else if (currentCooldown[skillChoice - 1] > 0) {
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t That skill is on cooldown! Please choose another skill.", 15);
             } else {
                 int dmg = player.damage[skillChoice - 1];
-                System.out.println();
                 typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + player.name + " used " + player.skills[skillChoice - 1] + "!", 10);
                 enemy.health -= dmg;
                 if (enemy.health < 0) enemy.health = 0;
-                System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t ---------------------------------------------------------");
                 typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💥] " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
+
+                // Set cooldown for used skill
+                currentCooldown[skillChoice - 1] = skillCooldown[skillChoice - 1] = 2; // example: 2-turn cooldown
             }
 
-            // Enemy counterattack
+            // Enemy attack
             if (enemy.isAlive()) {
                 int enemySkill = rand.nextInt(enemy.skills.length);
                 int dmg = enemy.damage[enemySkill];
@@ -130,6 +138,12 @@ public class EncantadiaGame {
                 if (player.health < 0) player.health = 0;
                 typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
             }
+
+            // Reduce all cooldowns by 1 at the end of turn
+            for (int i = 0; i < currentCooldown.length; i++) {
+                if (currentCooldown[i] > 0) currentCooldown[i]--;
+            }
+
             turn++;
         }
 
@@ -142,6 +156,7 @@ public class EncantadiaGame {
             return false;
         }
     }
+
 
 
     //First
