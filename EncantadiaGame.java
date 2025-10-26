@@ -1,3 +1,5 @@
+package FinalProject;
+
 import java.util.*;
 import java.io.*;
 
@@ -47,9 +49,9 @@ public class EncantadiaGame {
         }
     }
 
-    // Battle method
+    // Battle method with fixed enemy backstory display
     static boolean battle(Character player, Character enemy, int choice) {
-        // here backstory
+        // Header
         prt.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 17; i2++) {
             prt.print("=====");
@@ -64,24 +66,21 @@ public class EncantadiaGame {
             prt.print("=====");
         }
         prt.println("\n");
-        switch (choice) {
-            case 1 -> {
-                JAAB.showBackstoryMain();
-                break;
-            }
-            case 2 -> {
-                MAAB.showBackstoryMain();
-            }
-            case 3 -> {
 
-                JAPB.showBackstoryMain();
-            }
-            case 4 -> {
-                DAAB.showBackstoryMain();
-            }
+        // --- Show enemy backstory ---
+        switch (enemy.name) {
+            case "Amihan" -> JAAB.showBackstoryMain();
+            case "Alena" -> MAAB.showBackstoryMain();
+            case "Pirena" -> JAPB.showBackstoryOG(); // Pirena uses showBackstoryOG()
+            case "Danaya" -> DAAB.showBackstoryMain();
+            case "Mary (Goddess of Tides)" -> MAAB.showBackstoryMain();
+            case "Joygen (Goddess of Eternal Blaze)" -> JAPB.showBackstoryMain(); // Joygen uses showBackstoryMain()
+            case "Dirk (God of Living Soil)" -> DAAB.showBackstoryMain();
+            case "Jelian (Goddess of Whispers)" -> JAAB.showBackstoryMain();
+            default -> System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [⚠️] No backstory available.");
         }
 
-        // added number of turns here - MryyClrr
+        // Battle loop
         while (player.isAlive() && enemy.isAlive()) {
 
             System.out.println("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t              ═══════════════════════════════════════════════════");
@@ -96,7 +95,6 @@ public class EncantadiaGame {
             // Player chooses skill
             System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a skill:");
             for (int i = 0; i < player.skills.length; i++) {
-                // ✅ Display damage cost
                 System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + player.skills[i] +
                         "  🔥 Damage: " + player.damage[i]);
             }
@@ -104,7 +102,6 @@ public class EncantadiaGame {
             System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Cast your skill: ");
 
             int skillChoice;
-
             try {
                 skillChoice = sc.nextInt();
             } catch (java.util.InputMismatchException e) {
@@ -117,11 +114,10 @@ public class EncantadiaGame {
             } else {
                 int dmg = player.damage[skillChoice - 1];
                 System.out.println();
-
                 typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + player.name + " used " + player.skills[skillChoice - 1] + "!", 10);
                 enemy.health -= dmg;
-                System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t ---------------------------------------------------------");
                 if (enemy.health < 0) enemy.health = 0;
+                System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t ---------------------------------------------------------");
                 typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💥] " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
             }
 
@@ -146,6 +142,7 @@ public class EncantadiaGame {
             return false;
         }
     }
+
 
     //First
     // Typewriter effect (inline, no newline at the end), for proper input
