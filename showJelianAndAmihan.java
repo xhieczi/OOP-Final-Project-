@@ -3,11 +3,11 @@ public class showJelianAndAmihan extends Backstory {
     //EncantadiaGame usingTypePrintFunc = new EncantadiaGame();
     @Override
     public void showBackstoryMain(){
-        prt.println();
-        prt.println();
-        prt.print("\t\t\t\t\t\t\t\t");
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 29; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
 
         EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Jelian's Backstory]\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
@@ -16,21 +16,21 @@ public class showJelianAndAmihan extends Backstory {
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\tHer voice is never heard directly but carried through echoes and murmurs, guiding those who listen with patience.\t\t\t\t+", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t\t\t\tShe thrives in twilight, where hidden truths slip through the veil of shadows.\t\t\t\t\t\t\t\t+", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
-        prt.print("\t\t\t\t\t\t\t\t");
+        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 29; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
-        prt.println();
-        prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
     }
 
     @Override
     public void showBackstoryOG() {
-        prt.println();
-        prt.println();
-        prt.print("\n\t\t\t\t\t\t\t\t");
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.print("\n\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 29; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
         EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Amihan's Backstory]\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
@@ -38,11 +38,11 @@ public class showJelianAndAmihan extends Backstory {
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\tGentle in spirit yet bound by duty, she calms the seas for travelers but can summon storms when balance is threatened.\t\t+", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t\t\t\t\tHer presence is the promise of change, ever restless and ever watchful. \t\t\t\t\t\t\t\t+", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
-        prt.print("\t\t\t\t\t\t\t\t");
+        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 29; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
-        prt.println();
-        prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
     }
 }
