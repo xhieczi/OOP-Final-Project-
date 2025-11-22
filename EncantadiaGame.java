@@ -1,5 +1,3 @@
-package FinalProject;
-
 import java.util.*;
 import java.io.*;
 
@@ -241,22 +239,22 @@ public class EncantadiaGame {
                     break;
                 } else if (input.equals("1")) {
                     validInput = true;
-                    prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                    prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
                     for (int i1 = 1; i1 <= 18; i1++) {
                         prt.print("=====");
                     }
-                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         ------------------------- ✨ ANG NAKARAAN ✨ -------------------------     +", 10);
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                        +", 10);
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia...          +", 10);
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       Under the guidance of the Queen and her four Sang’gres, harmony reigned.         +", 10);
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       But darkness soon came, for the Queen was taken by a mysterious rival...         +", 10);
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       The realms fell into despair, and the balance of power was broken.               +", 10);
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                        +", 10);
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+     To discover the Queen’s fate, the Sang’gres must seek the four great Brilyantes    +", 10);
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       the powerful gems that give life and strength to Encantadia itself.              +", 10);
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       Only by uniting these Brilyantes shall the truth be revealed and peace be...     +", 10);
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       restored once more. [⚔️]                                                         +", 10);
-                    prt.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         ------------------------- ✨ ANG NAKARAAN ✨ -------------------------        +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                        +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia...        +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       Under the guidance of the Queen and her four Sang’gres, harmony reigned.         +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         But darkness soon came, for the Queen was taken by a mysterious rival...       +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+           The realms fell into despair, and the balance of power was broken.           +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                        +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+      To discover the Queen’s fate, the Sang’gres must seek the four great Brilyantes   +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+           the powerful gems that give life and strength to Encantadia itself.          +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       Only by uniting these Brilyantes shall the truth be revealed and peace be...     +", 10);
+                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                 restored once more. [⚔️]                               +", 10);
+                    prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
                     for (int i1 = 1; i1 <= 18; i1++) {
                         prt.print("=====");
                     }
@@ -319,7 +317,7 @@ public class EncantadiaGame {
                 new int[]{15, 30, 40});
 
 // Choose player (same as before)
-        prt.print("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        prt.print("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 15; i2++) {
             prt.print("=====");
         }
