@@ -1,15 +1,15 @@
-package FinalProject;
-
 import java.util.Scanner;
 import java.util.Random;
+import java.io.*;
 
-class Character {
+public class Character {
     String name;
     String backstory;
     String[] skills;
     int[] manaCost;
     int[] damage;
     int hp = 500;
+
 
     Character(String name, String backstory, String[] skills, int[] manaCost, int[] damage) {
         this.name = name;
@@ -35,4 +35,6 @@ class Character {
         System.out.println(name + " used " + skills[skillIndex] +
                 "! Damage: " + dmg);
     }
+
 }
+
