@@ -358,74 +358,55 @@ if (enemy.isAlive()) {
                 new int[]{40, 55, 75},
                 new int[]{15, 30, 40});
 
-// Choose player (same as before)
-        prt.print("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-        for (int i2 = 1; i2 <= 15; i2++) {
-            prt.print("=====");
-        }
-        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t  ~ ~ ~ ~ ~ ~ ~ ~$[Lair of the Sang'gres]$~ ~ ~ ~ ~ ~ ~ ~\t\t  +", 8);
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t                                                         \t\t  +", 8);
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t                                                         \t\t  +", 8);
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [1] Jelian (Goddess of Whispers)\t\t\t\t\t\t\t\t\t\t  +", 8);
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [2] Mary (Goddess of Tides)\t\t\t\t\t\t\t\t\t\t      +", 8);
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [3] Joygen (Goddess of Eternal Blaze) \t\t\t\t\t\t\t\t  +", 8);
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [4] Dirk (God of Living Soil)\t\t\t\t\t\t\t\t\t\t      +", 8);
-        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-        for (int i2 = 1; i2 <= 15; i2++) {
-            prt.print("=====");
-        }
-        int choice = -1;
-        boolean validChoice = false;
+✅// All 8 characters must choose
+Character[] allCharacters = new Character[]{
+    Jelian, Mary, Joygen, Dirk, Pirena, Amihan, Alena, Danaya
+};
 
-        while (!validChoice) {
-            typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   Choose your Sang'gre: ", 3);
-            try {
-                // read the entire line and trim it
-                if (!sc.hasNextLine()) {
-                    System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      No input available. Exiting.");
-                    break;
-                }
-                String line = sc.nextLine().trim();
+// Display characters dynamically
+prt.print("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+for (int i2 = 1; i2 <= 15; i2++) prt.print("=====");
+typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t  ~ ~ ~ ~ ~ ~ ~ ~$[Lair of the Sang'gres]$~ ~ ~ ~ ~ ~ ~ ~\t\t  +", 8);
+for (int i = 0; i < allCharacters.length; i++) {
+    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [" + (i + 1) + "] " + allCharacters[i].name + "\t\t\t\t\t\t\t\t\t  +", 8);
+}
+prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+for (int i2 = 1; i2 <= 15; i2++) prt.print("=====");
 
-                // try parse integer
-                choice = Integer.parseInt(line);
+// Player chooses a character
+int choice = -1;
+boolean validChoice = false;
+while (!validChoice) {
+    typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   Choose your Sang'gre (1-8): ", 3);
+    try {
+        String line = sc.nextLine().trim();
+        choice = Integer.parseInt(line);
 
-                // validate range (1..4)
-                if (choice < 1 || choice > 4) {
-                    System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Please enter a number between 1 and 4.");
-                    continue;
-                }
-
-                validChoice = true; // valid numeric input in range, exit loop
-
-            } catch (NumberFormatException e) {
-                System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Invalid input! Please enter a number between 1 and 4.");
-            }
+        if (choice < 1 || choice > allCharacters.length) {
+            System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Please enter a number between 1 and 8.");
+            continue;
         }
 
-        prt.println("\n\n");
-        Character player = null;
-        Character[] enemies = null;
+        validChoice = true;
+    } catch (NumberFormatException e) {
+        System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Invalid input! Enter a number between 1 and 8.");
+    }
+}
 
-// ✅ Player setup
-        switch (choice) {
-            case 1 -> {
-                player = Jelian;
-                JAAB.showBackstoryMain();
-            }
-            case 2 -> {
-                player = Mary;
-                MAAB.showBackstoryMain();
-            }
+// Assign selected character
+Character player = allCharacters[choice - 1];
 
-            case 3 -> {
-                player = Joygen;
-                JAPB.showBackstoryMain();
-            }
-            case 4 -> {
-                player = Dirk;
-                DAAB.showBackstoryMain();
-            }
+// Show backstory
+switch (player.name) {
+    case "Jelian (Goddess of Whispers)" -> JAAB.showBackstoryMain();
+    case "Mary (Goddess of Tides)" -> MAAB.showBackstoryMain();
+    case "Joygen (Goddess of Eternal Blaze)" -> JAPB.showBackstoryMain();
+    case "Dirk (God of Living Soil)" -> DAAB.showBackstoryMain();
+    case "Pirena" -> {} // enemies only, skip
+    case "Amihan" -> {}
+    case "Alena" -> {}
+    case "Danaya" -> {}
+}
             default -> {
                 prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
                 for (int i2 = 1; i2 <= 15; i2++) prt.print("=====");
