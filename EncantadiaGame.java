@@ -132,51 +132,69 @@ if (enemy.isAlive()) {
 
     // Player vs Player = manual enemy control
     if (GameMode.currentMode == 1) {
+    System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t Player 2's turn!");
+    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a character for Player 2:");
 
-        System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t Enemy's turn!");
-        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a skill for " + enemy.name + ":");
-
-        for (int i = 0; i < enemy.skills.length; i++) {
-            System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + enemy.skills[i] +
-                    "  💥 Damage: " + enemy.damage[i]);
+    // Display all 8 characters for Player 2
+    for (int i = 0; i < allCharacters.length; i++) {
+        // Skip if the character is already Player 1
+        if (allCharacters[i] != player) {
+            System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [" + (i + 1) + "] " + allCharacters[i].name);
         }
+    }
 
-        int enemySkill = -1;
-        boolean validEnemyChoice = false;
+    int enemyChoice = -1;
+    boolean validEnemyChoice = false;
 
-        while (!validEnemyChoice) {
-            System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Enemy casts: ");
-            try {
-                enemySkill = sc.nextInt() - 1;
-                if (enemySkill >= 0 && enemySkill < enemy.skills.length) {
-                    validEnemyChoice = true;
-                } else {
-                    System.out.println("\t\t\t\t\t\t Invalid choice! Choose 1-" + enemy.skills.length + ".");
-                }
-            } catch (InputMismatchException e) {
-                sc.nextLine();
-                System.out.println("\t\t\t\t\t\t Invalid input! Enter a number.");
+    while (!validEnemyChoice) {
+        System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Player 2 selects: ");
+        try {
+            enemyChoice = sc.nextInt() - 1;
+
+            if (enemyChoice >= 0 && enemyChoice < allCharacters.length && allCharacters[enemyChoice] != player) {
+                validEnemyChoice = true;
+            } else {
+                System.out.println("\t\t\t\t\t\t Invalid choice! Cannot select Player 1's character or out of range.");
             }
+        } catch (InputMismatchException e) {
+            sc.nextLine();
+            System.out.println("\t\t\t\t\t\t Invalid input! Enter a number between 1 and 8.");
         }
-
-        int dmg = enemy.damage[enemySkill];
-        typePrint("\t\t\t\t\t\t " + enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
-
-        player.health -= dmg;
-        if (player.health < 0) player.health = 0;
-
-        typePrint("\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
     }
 
-    // Otherwise = normal random enemy AI
-    else {
-        int enemySkill = rand.nextInt(enemy.skills.length);
-        int dmg = enemy.damage[enemySkill];
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t " + enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
-        player.health -= dmg;
-        if (player.health < 0) player.health = 0;
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
+    // Assign Player 2 character
+    Character enemy = allCharacters[enemyChoice];
+
+    // Enemy chooses skill manually
+    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a skill for " + enemy.name + ":");
+    for (int i = 0; i < enemy.skills.length; i++) {
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + enemy.skills[i] +
+                "  💥 Damage: " + enemy.damage[i]);
     }
+
+    int enemySkill = -1;
+    boolean validSkillChoice = false;
+
+    while (!validSkillChoice) {
+        System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Enemy casts: ");
+        try {
+            enemySkill = sc.nextInt() - 1;
+            if (enemySkill >= 0 && enemySkill < enemy.skills.length) {
+                validSkillChoice = true;
+            } else {
+                System.out.println("\t\t\t\t\t\t Invalid choice! Choose 1-" + enemy.skills.length + ".");
+            }
+        } catch (InputMismatchException e) {
+            sc.nextLine();
+            System.out.println("\t\t\t\t\t\t Invalid input! Enter a number.");
+        }
+    }
+
+    int dmg = enemy.damage[enemySkill];
+    typePrint("\t\t\t\t\t\t " + enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
+    player.health -= dmg;
+    if (player.health < 0) player.health = 0;
+    typePrint("\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
 }
 
             // Reduce all cooldowns by 1 at the end of turn
