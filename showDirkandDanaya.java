@@ -1,11 +1,11 @@
 public class showDirkandDanaya extends Backstory {
     @Override
     public void showBackstoryMain(){
-        prt.println();
-        prt.println();
-        prt.print("\t\t\t\t\t\t\t\t");
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 29; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
 
         EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Dirk's Backstory]\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
@@ -16,21 +16,21 @@ public class showDirkandDanaya extends Backstory {
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\t His dedication and vow to provide protection the lands made it his life's value, as much as he values the soil.\t\t\t+", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t\t A skillful warrior with a heart made with steel, capable of upbringing his earthly prowess.\t\t\t\t\t\t+", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
-        prt.print("\t\t\t\t\t\t\t\t");
+        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 29; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
-        prt.println();
-        prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
     }
 
     @Override
     public void showBackstoryOG() {
-        prt.println();
-        prt.println();
-        prt.print("\t\t\t\t\t\t\t\t");
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 29; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
 
         EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Danaya's Backstory]\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
@@ -39,12 +39,12 @@ public class showDirkandDanaya extends Backstory {
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t \t\t\tHer touch can heal barren ground or summon quakes that reshape mountains, for she is both nurturer and destroyer.\t\t\t+", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t\tSteadfast and resolute, Danaya stands as the silent foundation upon which all life endures.\t\t\t\t\t\t\t+", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
-        prt.print("\t\t\t\t\t\t\t\t");
+        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 29; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
-        prt.println();
-        prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
     }
 
 }
