@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class GameMode {
     static Scanner sc = new Scanner(System.in);
     static PrintStream prt = System.out;
-
+static int currentMode = 2;
     static int chooseGameMode() {
         prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
@@ -48,6 +48,7 @@ public class GameMode {
         prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
-        return mode;
+        currentMode = mode;
+return mode;
     }
 }
