@@ -129,39 +129,54 @@ public class EncantadiaGame {
 
            ✅ // Enemy attack (manual mode)
 if (enemy.isAlive()) {
-    System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t Enemy's turn!");
-    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a skill for " + enemy.name + ":");
 
-    for (int i = 0; i < enemy.skills.length; i++) {
-        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + enemy.skills[i] +
-                "  💥 Damage: " + enemy.damage[i]);
-    }
+    // Player vs Player = manual enemy control
+    if (GameMode.currentMode == 1) {
 
-    int enemySkill = -1;
-    boolean validEnemyChoice = false;
+        System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t Enemy's turn!");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a skill for " + enemy.name + ":");
 
-    while (!validEnemyChoice) {
-        System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Enemy casts: ");
-        try {
-            enemySkill = sc.nextInt() - 1;
-            if (enemySkill >= 0 && enemySkill < enemy.skills.length) {
-                validEnemyChoice = true;
-            } else {
-                System.out.println("\t\t\t\t\t\t Invalid choice! Choose 1-" + enemy.skills.length + ".");
-            }
-        } catch (InputMismatchException e) {
-            sc.nextLine();
-            System.out.println("\t\t\t\t\t\t Invalid input! Enter a number.");
+        for (int i = 0; i < enemy.skills.length; i++) {
+            System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + enemy.skills[i] +
+                    "  💥 Damage: " + enemy.damage[i]);
         }
+
+        int enemySkill = -1;
+        boolean validEnemyChoice = false;
+
+        while (!validEnemyChoice) {
+            System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Enemy casts: ");
+            try {
+                enemySkill = sc.nextInt() - 1;
+                if (enemySkill >= 0 && enemySkill < enemy.skills.length) {
+                    validEnemyChoice = true;
+                } else {
+                    System.out.println("\t\t\t\t\t\t Invalid choice! Choose 1-" + enemy.skills.length + ".");
+                }
+            } catch (InputMismatchException e) {
+                sc.nextLine();
+                System.out.println("\t\t\t\t\t\t Invalid input! Enter a number.");
+            }
+        }
+
+        int dmg = enemy.damage[enemySkill];
+        typePrint("\t\t\t\t\t\t " + enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
+
+        player.health -= dmg;
+        if (player.health < 0) player.health = 0;
+
+        typePrint("\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
     }
 
-    int dmg = enemy.damage[enemySkill];
-    typePrint("\t\t\t\t\t\t " + enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
-
-    player.health -= dmg;
-    if (player.health < 0) player.health = 0;
-
-    typePrint("\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
+    // Otherwise = normal random enemy AI
+    else {
+        int enemySkill = rand.nextInt(enemy.skills.length);
+        int dmg = enemy.damage[enemySkill];
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t " + enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
+        player.health -= dmg;
+        if (player.health < 0) player.health = 0;
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
+    }
 }
 
             // Reduce all cooldowns by 1 at the end of turn
