@@ -1,35 +1,35 @@
 public class showMaryAndAlena extends Backstory {
     @Override
     public void showBackstoryMain(){
-        prt.println();
-        prt.println();
-        prt.print("\t\t\t\t");
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.print("\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 32; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
 
-        EncantadiaGame.typePrint("\n\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Mary's Backstory]\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t+\t\t\t\t\t\t\t\t\tBorn from the first meeting of moonlight and ocean, a child of rhythm and eternal pull.\t\t\t\t\t\t\t\t\t   +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t+\t\t\t\t\t\tHer spirit carries the dual nature of the sea—gentle enough to cradle life, yet fierce enough to sweep entire worlds away.\t\t\t   +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t+\t\t\t\t\t\t\t\t\t\tShe thrives in twilight, where hidden truths slip through the veil of shadows.\t\t\t\t\t\t\t\t\t\t   +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   +", 8);
+        EncantadiaGame.typePrint("\n\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Mary's Backstory]\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   +", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   +", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\tBorn from the first meeting of moonlight and ocean, a child of rhythm and eternal pull.\t\t\t\t\t\t\t\t\t   +", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t+\t\t\t\t\t\tHer spirit carries the dual nature of the sea—gentle enough to cradle life, yet fierce enough to sweep entire worlds away.\t\t\t   +", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\tShe thrives in twilight, where hidden truths slip through the veil of shadows.\t\t\t\t\t\t\t\t\t\t   +", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   +", 8);
 
-        prt.print("\t\t\t\t");
+        EncantadiaGame.prt.print("\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 32; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
-        prt.println();
-        prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
     }
 
     @Override
     public void showBackstoryOG() {
-        prt.println();
-        prt.println();
-        prt.print("\t\t\t\t");
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.print("\t\t\t\t");
         for (int i2 = 1; i2 <= 32; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
         EncantadiaGame.typePrint("\n\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Alena's Backstory]\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   +", 8);
         EncantadiaGame.typePrint("\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   +", 8);
@@ -38,11 +38,11 @@ public class showMaryAndAlena extends Backstory {
         EncantadiaGame.typePrint("\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\tHer presence is the promise of change, ever restless and ever watchful.\t\t\t\t\t\t\t\t\t\t\t   +", 8);
         EncantadiaGame.typePrint("\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   +", 8);
 
-        prt.print("\t\t\t\t");
+        EncantadiaGame.prt.print("\t\t\t\t");
         for (int i2 = 1; i2 <= 32; i2++) {
-            prt.print("=====");
+            EncantadiaGame.prt.print("=====");
         }
-        prt.println();
-        prt.println();
+        EncantadiaGame.prt.println();
+        EncantadiaGame.prt.println();
     }
 }
