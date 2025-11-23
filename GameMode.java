@@ -1,34 +1,33 @@
 import java.io.PrintStream;
 import java.util.Scanner;
 
-
 public class GameMode {
     static Scanner sc = new Scanner(System.in);
     static PrintStream prt = System.out;
-static int currentMode = 2;
+
     static int chooseGameMode() {
-        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
-        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t✦✦✦ Choose Your Game Mode ✦✦✦\t\t\t\t\t  +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t\t[1] Player vs Player (Manual Battle)\t\t\t\t\t      +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t\t[2] Player vs Enemy (Normal Mode)\t\t\t\t\t          +", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t\t[3] Arcade Mode (Player vs All)\t\t\t\t\t              +", 8);
+        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t✦✦✦ Choose Your Game Mode ✦✦✦\t\t\t\t\t  +", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t+ \t\t\t[1] Player vs Player (Manual Battle)\t\t\t\t\t      +", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t+ \t\t\t[2] Player vs Enemy (Normal Mode)\t\t\t\t\t          +", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t+ \t\t\t[3] Arcade Mode (Player vs All)\t\t\t\t\t              +", 8);
 
-        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        prt.print("\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
         int mode = -1;
         boolean validInput = false;
 
         while (!validInput) {
-            EncantadiaGame.typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEnter your choice: ", 3);
+            EncantadiaGame.typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\tEnter your choice: ", 3);
             try {
                 mode = sc.nextInt();
                 sc.nextLine(); // clear buffer
                 validInput = true;
             } catch (java.util.InputMismatchException e) {
-                System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Your quest did not appear on the scroll! Enter the correct quest!.");
+                System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Invalid input! Please enter from (1–3) only.");
                 sc.nextLine();
             }
         }
@@ -40,15 +39,14 @@ static int currentMode = 2;
             default -> "Invalid Mode";
         };
 
-        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
-        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t +        [🎮] You chose " + modeName    + "!        +\t\t\t ", 8);
+        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t +        [🎮] You chose " + modeName    + "!        +\t\t\t ", 8);
 
-        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        prt.print("\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
-        currentMode = mode;
-return mode;
+        return mode;
     }
 }
