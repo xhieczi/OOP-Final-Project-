@@ -1,7 +1,6 @@
 import java.util.*;
 import java.io.*;
 
-
 public class EncantadiaGame {
     static Scanner sc = new Scanner(System.in);
     static Random rand = new Random();
@@ -47,6 +46,7 @@ public class EncantadiaGame {
         }
     }
 
+
     // Battle method with cooldown
     static boolean battle(Character player, Character enemy, int choice) {
         // Header
@@ -75,11 +75,16 @@ public class EncantadiaGame {
         }
 
         // --- Cooldown setup ---
-        int[] skillCooldown = new int[player.skills.length]; // cooldown duration for each skill
-        int[] currentCooldown = new int[player.skills.length]; // turns left for each skill
-        Arrays.fill(currentCooldown, 0); // all skills ready at start
+        int[] skillCooldown = new int[player.skills.length];
+        skillCooldown[0] = 0; // Skill 1: no cooldown
+        skillCooldown[1] = 2; // Skill 2: 2-turn cooldown
+        skillCooldown[2] = 3; // Skill 3: 3-turn cooldown
 
-        // Battle loop
+        int[] currentCooldown = new int[player.skills.length]; // turns left for each skill
+        Arrays.fill(currentCooldown, 0);
+
+        int turn = 1;
+
         while (player.isAlive() && enemy.isAlive()) {
 
             System.out.println("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t              ═══════════════════════════════════════════════════");
@@ -96,26 +101,26 @@ public class EncantadiaGame {
             for (int i = 0; i < player.skills.length; i++) {
                 System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + player.skills[i] +
                         "  🔥 Damage: " + player.damage[i]);
-                if (currentCooldown[i] > 0) System.out.print("  ⏳ Cooldown: " + currentCooldown[i] + " turn(s)");
+                if (currentCooldown[i] > 0) System.out.print("  ⏳ Cooldown: " + currentCooldown[i] + " turn(s) 🔒");
+                else System.out.print("  ✅ Ready!");
                 System.out.println();
             }
 
-            System.out.println();
             System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Cast your skill: ");
-
             int skillChoice;
+
             try {
                 skillChoice = sc.nextInt();
+                sc.nextLine(); // important! consume leftover newline
             } catch (java.util.InputMismatchException e) {
                 sc.nextLine(); // clear invalid input
                 skillChoice = -1; // treat as a miss
             }
 
-            // Validate skill choice
             if (skillChoice < 1 || skillChoice > player.skills.length) {
                 typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t You missed your attack! [😱]", 15);
             } else if (currentCooldown[skillChoice - 1] > 0) {
-                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t That skill is on cooldown! Please choose another skill.", 15);
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t That skill is on cooldown! You missed your attack! [😱]", 15);
             } else {
                 int dmg = player.damage[skillChoice - 1];
                 typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + player.name + " used " + player.skills[skillChoice - 1] + "!", 10);
@@ -123,81 +128,19 @@ public class EncantadiaGame {
                 if (enemy.health < 0) enemy.health = 0;
                 typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💥] " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
 
-                // Set cooldown for used skill
-                currentCooldown[skillChoice - 1] = skillCooldown[skillChoice - 1] = 2; // example: 2-turn cooldown
+                currentCooldown[skillChoice - 1] = skillCooldown[skillChoice - 1];
             }
 
-           // Enemy attack (manual mode)
-if (enemy.isAlive()) {
-
-    // Player vs Player = manual enemy control
-    if (GameMode.currentMode == 1) {
-    System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t Player 2's turn!");
-    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a character for Player 2:");
-
-    // Display all 8 characters for Player 2
-    for (int i = 0; i < allCharacters.length; i++) {
-        // Skip if the character is already Player 1
-        if (allCharacters[i] != player) {
-            System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [" + (i + 1) + "] " + allCharacters[i].name);
-        }
-    }
-
-    int enemyChoice = -1;
-    boolean validEnemyChoice = false;
-
-    while (!validEnemyChoice) {
-        System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Player 2 selects: ");
-        try {
-            enemyChoice = sc.nextInt() - 1;
-
-            if (enemyChoice >= 0 && enemyChoice < allCharacters.length && allCharacters[enemyChoice] != player) {
-                validEnemyChoice = true;
-            } else {
-                System.out.println("\t\t\t\t\t\t Invalid choice! Cannot select Player 1's character or out of range.");
+            // Enemy attack
+            if (enemy.isAlive()) {
+                int enemySkill = rand.nextInt(enemy.skills.length);
+                int dmg = enemy.damage[enemySkill];
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t " + enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
+                player.health -= dmg;
+                if (player.health < 0) player.health = 0;
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
             }
-        } catch (InputMismatchException e) {
-            sc.nextLine();
-            System.out.println("\t\t\t\t\t\t Invalid input! Enter a number between 1 and 8.");
-        }
-    }
 
-    // Assign Player 2 character
-    Character enemy = allCharacters[enemyChoice];
-
-    // Enemy chooses skill manually
-    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a skill for " + enemy.name + ":");
-    for (int i = 0; i < enemy.skills.length; i++) {
-        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + enemy.skills[i] +
-                "  💥 Damage: " + enemy.damage[i]);
-    }
-
-    int enemySkill = -1;
-    boolean validSkillChoice = false;
-
-    while (!validSkillChoice) {
-        System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Enemy casts: ");
-        try {
-            enemySkill = sc.nextInt() - 1;
-            if (enemySkill >= 0 && enemySkill < enemy.skills.length) {
-                validSkillChoice = true;
-            } else {
-                System.out.println("\t\t\t\t\t\t Invalid choice! Choose 1-" + enemy.skills.length + ".");
-            }
-        } catch (InputMismatchException e) {
-            sc.nextLine();
-            System.out.println("\t\t\t\t\t\t Invalid input! Enter a number.");
-        }
-    }
-
-    int dmg = enemy.damage[enemySkill];
-    typePrint("\t\t\t\t\t\t " + enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
-    player.health -= dmg;
-    if (player.health < 0) player.health = 0;
-    typePrint("\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
-}
-
-            // Reduce all cooldowns by 1 at the end of turn
             for (int i = 0; i < currentCooldown.length; i++) {
                 if (currentCooldown[i] > 0) currentCooldown[i]--;
             }
@@ -205,15 +148,44 @@ if (enemy.isAlive()) {
             turn++;
         }
 
+        // --- Player lost or won handling ---
         if (player.isAlive()) {
             typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🏆] " + player.name + " has defeated " + enemy.name + "!", 15);
             typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t You reclaimed the Brilyante of " + enemy.element + "! [✨]", 15);
             return true;
         } else {
             typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💀] " + player.name + " has fallen... The Brilyante remains with " + enemy.name + ".", 20);
-            return false;
+
+            // --- Ask to play again ---
+            boolean validReplay = false;
+            while (!validReplay) {
+                try {
+                    System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
+                    String replay = sc.nextLine().trim().toLowerCase();
+
+                    if (replay.equals("yes")) {
+                        validReplay = true;
+                        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🔄] Isa kang magiting na mandirigma... Maghanda sa panibagong panimula! [✨]\n", 10);
+                        main(null); // restart the game
+                        return false; // exit current battle
+                    } else if (replay.equals("no")) {
+                        validReplay = true;
+                        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🌙] Avisala Eshma! Encantadia awaits the next brave soul...", 15);
+                        prt.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Salamat sa paglalaro! [🏰✨]");
+                        return false;
+                    } else {
+                        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Ashtadi! Please input 'Yes' o 'No'.");
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Patawad! Something went wrong. Please try again.");
+                }
+            }
+
+            return false; // fallback
         }
     }
+
 
 
 
@@ -244,7 +216,6 @@ if (enemy.isAlive()) {
         for (int i1 = 1; i1 <= 15; i1++) {
             prt.print("======");
         }
-
         typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t[🌌][✨]Avisala! Maligayang paglalakbay sa mundo ng Encantadia![✨][🌌]\t\t +\t\t\t\t\t\t", 5);
         typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\tLegends whisper of heroes who shaped the fate of kingdoms...             \t\t +\t\t\t\t\t\t\t\t", 5);
         typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\tDo you dare take the first step into destiny?                            \t\t +\t\t\t\t\t\t\t\t", 5);
@@ -258,8 +229,9 @@ if (enemy.isAlive()) {
             prt.print("======");
         }
         typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  [👉] Choose Your Fate: ", 8);
-        String start = sc.nextLine();
+        String start = sc.nextLine().trim();
 
+// If player chooses anything other than 1
         if (!start.equals("1")) {
             prt.println();
             prt.println();
@@ -276,7 +248,27 @@ if (enemy.isAlive()) {
             for (int i2 = 1; i2 <= 17; i2++) {
                 prt.print("======");
             }
-            return;
+
+            // --- Ask to play again ---
+            boolean validReplay = false;
+            while (!validReplay) {
+                System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
+                String replay = sc.nextLine().trim().toLowerCase();
+
+                if (replay.equals("yes")) {
+                    validReplay = true;
+                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🔄] Isa kang magiting na mandirigma... Maghanda sa panibagong panimula! [✨]\n", 10);
+                    main(null); // restart the game
+                    return; // prevent further execution in current main
+                } else if (replay.equals("no")) {
+                    validReplay = true;
+                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🌙] Avisala Eshma! Encantadia awaits the next brave soul...", 15);
+                    prt.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Salamat sa paglalaro! [🏰✨]");
+                    return; // exit
+                } else {
+                    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Ashtadi! Please input 'Yes' o 'No'."); // invalid input
+                }
+            }
         }
 
         boolean validInput = false;
@@ -376,55 +368,74 @@ if (enemy.isAlive()) {
                 new int[]{40, 55, 75},
                 new int[]{15, 30, 40});
 
-// All 8 characters must choose
-Character[] allCharacters = new Character[]{
-    Jelian, Mary, Joygen, Dirk, Pirena, Amihan, Alena, Danaya
-};
+// Choose player (same as before)
+        prt.print("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        for (int i2 = 1; i2 <= 15; i2++) {
+            prt.print("=====");
+        }
+        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t  ~ ~ ~ ~ ~ ~ ~ ~$[Lair of the Sang'gres]$~ ~ ~ ~ ~ ~ ~ ~\t\t  +", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t                                                         \t\t  +", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t                                                         \t\t  +", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [1] Jelian (Goddess of Whispers)\t\t\t\t\t\t\t\t\t\t  +", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [2] Mary (Goddess of Tides)\t\t\t\t\t\t\t\t\t\t      +", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [3] Joygen (Goddess of Eternal Blaze) \t\t\t\t\t\t\t\t  +", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [4] Dirk (God of Living Soil)\t\t\t\t\t\t\t\t\t\t      +", 8);
+        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        for (int i2 = 1; i2 <= 15; i2++) {
+            prt.print("=====");
+        }
+        int choice = -1;
+        boolean validChoice = false;
 
-// Display characters dynamically
-prt.print("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-for (int i2 = 1; i2 <= 15; i2++) prt.print("=====");
-typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t  ~ ~ ~ ~ ~ ~ ~ ~$[Lair of the Sang'gres]$~ ~ ~ ~ ~ ~ ~ ~\t\t  +", 8);
-for (int i = 0; i < allCharacters.length; i++) {
-    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [" + (i + 1) + "] " + allCharacters[i].name + "\t\t\t\t\t\t\t\t\t  +", 8);
-}
-prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-for (int i2 = 1; i2 <= 15; i2++) prt.print("=====");
+        while (!validChoice) {
+            typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   Choose your Sang'gre: ", 3);
+            try {
+                // read the entire line and trim it
+                if (!sc.hasNextLine()) {
+                    System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      No input available. Exiting.");
+                    break;
+                }
+                String line = sc.nextLine().trim();
 
-// Player chooses a character
-int choice = -1;
-boolean validChoice = false;
-while (!validChoice) {
-    typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   Choose your Sang'gre (1-8): ", 3);
-    try {
-        String line = sc.nextLine().trim();
-        choice = Integer.parseInt(line);
+                // try parse integer
+                choice = Integer.parseInt(line);
 
-        if (choice < 1 || choice > allCharacters.length) {
-            System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Please enter a number between 1 and 8.");
-            continue;
+                // validate range (1..4)
+                if (choice < 1 || choice > 4) {
+                    System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Please enter a number between 1 and 4.");
+                    continue;
+                }
+
+                validChoice = true; // valid numeric input in range, exit loop
+
+            } catch (NumberFormatException e) {
+                System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Invalid input! Please enter a number between 1 and 4.");
+            }
         }
 
-        validChoice = true;
-    } catch (NumberFormatException e) {
-        System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Invalid input! Enter a number between 1 and 8.");
-    }
-}
+        prt.println("\n\n");
+        Character player = null;
+        Character[] enemies = null;
 
-// Assign selected character
-Character player = allCharacters[choice - 1];
+// ✅ Player setup
+        switch (choice) {
+            case 1 -> {
+                player = Jelian;
+                JAAB.showBackstoryMain();
+            }
+            case 2 -> {
+                player = Mary;
+                MAAB.showBackstoryMain();
+            }
 
-// Show backstory
-switch (player.name) {
-    case "Jelian (Goddess of Whispers)" -> JAAB.showBackstoryMain();
-    case "Mary (Goddess of Tides)" -> MAAB.showBackstoryMain();
-    case "Joygen (Goddess of Eternal Blaze)" -> JAPB.showBackstoryMain();
-    case "Dirk (God of Living Soil)" -> DAAB.showBackstoryMain();
-    case "Pirena" -> {} // enemies only, skip
-    case "Amihan" -> {}
-    case "Alena" -> {}
-    case "Danaya" -> {}
-}
+            case 3 -> {
+                player = Joygen;
+                JAPB.showBackstoryMain();
+            }
+            case 4 -> {
+                player = Dirk;
+                DAAB.showBackstoryMain();
+            }
             default -> {
                 prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
                 for (int i2 = 1; i2 <= 15; i2++) prt.print("=====");
@@ -489,7 +500,7 @@ switch (player.name) {
                                 }
                             }
 
-                            typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💪] Your strength grows as your quest continues!", 15);
+                            typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💪] Mahusay Mandirigma! Ika'y maghanda ", 15);
 
                         } else if (cont.equals("no")) {
                             isValid = true;
@@ -502,13 +513,33 @@ switch (player.name) {
 
                     } catch (Exception e) {
                         sc.nextLine();
-                        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Patawad... Invalid input!.");
+                        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Sheda!... Invalid input!.");
                     }
                 }
             }
         }
-        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🌟] Congratulations! You have united all 4 Brilyantes!", 15);
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t The truth is revealed... and peace returns to Encantadia! [✨]", 15);
+        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🌟] Haste Ivo Live! You have united all 4 Brilyantes!", 15);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t The truth is revealed... and peace returns to Encantadia! Avisala Eshma!  [✨]", 15);
 
+        // --- Ask to play again ---
+        boolean validReplay = false;
+        while (!validReplay) {
+            System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
+            String replay = sc.next().trim().toLowerCase();
+
+            if (replay.equalsIgnoreCase("yes")) {
+                validReplay = true;
+                typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🔄] Isa kang magiting na mandirigma... Maghanda sa panibagong panimula! [✨]\n", 10);
+                main(null); // restart the game
+                return; // prevent further execution in current main
+            } else if (replay.equalsIgnoreCase("no")) {
+                validReplay = true;
+                typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🌙] Avisala Eshma! Encantadia awaits the next brave soul...", 15);
+                return; // exit
+            } else {
+                System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Ashtadi! Please input 'Yes' o 'No'."); // invalid input
+                sc.nextLine(); // clear buffer
+            }
+        }
     }
 }
