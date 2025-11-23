@@ -127,7 +127,7 @@ public class EncantadiaGame {
                 currentCooldown[skillChoice - 1] = skillCooldown[skillChoice - 1] = 2; // example: 2-turn cooldown
             }
 
-           ✅ // Enemy attack (manual mode)
+           // Enemy attack (manual mode)
 if (enemy.isAlive()) {
 
     // Player vs Player = manual enemy control
@@ -376,7 +376,7 @@ if (enemy.isAlive()) {
                 new int[]{40, 55, 75},
                 new int[]{15, 30, 40});
 
-✅// All 8 characters must choose
+// All 8 characters must choose
 Character[] allCharacters = new Character[]{
     Jelian, Mary, Joygen, Dirk, Pirena, Amihan, Alena, Danaya
 };
