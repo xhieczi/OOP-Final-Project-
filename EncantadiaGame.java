@@ -1,3 +1,5 @@
+
+
 import java.util.*;
 import java.io.*;
 
@@ -38,23 +40,23 @@ public class EncantadiaGame {
         int[][] damageRange; // damage min-max for each skill
         int health = 500;    // player's current HP
 
-            Character(String name, String element, String[] skills, int[] manaCost, int[][] damageRange) {
-                this.name = name;
-                this.element = element;
-                this.skills = skills;
-                this.manaCost = manaCost;
-                this.damageRange = damageRange;
-            }
+        Character(String name, String element, String[] skills, int[] manaCost, int[][] damageRange) {
+            this.name = name;
+            this.element = element;
+            this.skills = skills;
+            this.manaCost = manaCost;
+            this.damageRange = damageRange;
+        }
 
-            boolean isAlive() {
-                return health > 0;
-            }
+        boolean isAlive() {
+            return health > 0;
+        }
 
-            public int getRandomDamage(int i) {
-                int min = damageRange[i][0];
-                int max = damageRange[i][1];
-                return min + (int)(Math.random() * (max - min + 1));
-            }
+        public int getRandomDamage(int i) {
+            int min = damageRange[i][0];
+            int max = damageRange[i][1];
+            return min + (int)(Math.random() * (max - min + 1));
+        }
     }
 
 
@@ -95,7 +97,9 @@ public class EncantadiaGame {
         int[] currentCooldown = new int[player.skills.length]; // turns left for each skill
         Arrays.fill(currentCooldown, 0);
 
+
         int turn = 1;
+        int round = 1;
 
         while (player.isAlive() && enemy.isAlive()) {
 
@@ -108,95 +112,95 @@ public class EncantadiaGame {
 
             typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t ---------------------------------------------------------------", 10);
 
-                // Player chooses skill
-                System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a skill:");
-                for (int i = 0; i < player.skills.length; i++) {
-                    System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + player.skills[i] +
-                            "  🔥 Damage: " + player.damageRange[i][0] + "-" + player.damageRange[i][1]); // show range
-                    if (currentCooldown[i] > 0) System.out.print("  ⏳ Cooldown: " + currentCooldown[i] + " turn(s) 🔒");
-                    else System.out.print("  ✅ Ready!");
-                    System.out.println();
-                }
+            // Player chooses skill
+            System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Choose a skill:");
+            for (int i = 0; i < player.skills.length; i++) {
+                System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + (i + 1) + ". " + player.skills[i] +
+                        "  🔥 Damage: " + player.damageRange[i][0] + "-" + player.damageRange[i][1]); // show range
+                if (currentCooldown[i] > 0) System.out.print("  ⏳ Cooldown: " + currentCooldown[i] + " turn(s) 🔒");
+                else System.out.print("  ✅ Ready!");
+                System.out.println();
+            }
 
 
-                System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Cast your skill: ");
-                int skillChoice;
+            System.out.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t Cast your skill: ");
+            int skillChoice;
 
+            try {
+                skillChoice = sc.nextInt();
+                sc.nextLine(); // important! consume leftover newline
+            } catch (java.util.InputMismatchException e) {
+                sc.nextLine(); // clear invalid input
+                skillChoice = -1; // treat as a miss
+            }
+
+            if (skillChoice < 1 || skillChoice > player.skills.length) {
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t You missed your attack! [😱]", 15);
+            } else if (currentCooldown[skillChoice - 1] > 0) {
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t That skill is on cooldown! You missed your attack! [😱]", 15);
+            } else {
+                int dmg = player.getRandomDamage(skillChoice - 1); // randomized damage
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + player.name + " used " + player.skills[skillChoice - 1] + "!", 10);
+                enemy.health -= dmg;
+                if (enemy.health < 0) enemy.health = 0;
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💥] " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
+
+                currentCooldown[skillChoice - 1] = skillCooldown[skillChoice - 1];
+            }
+
+            // Enemy attack
+            if (enemy.isAlive()) {
+                int enemySkill = rand.nextInt(enemy.skills.length);
+                int dmg = enemy.getRandomDamage(enemySkill);
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t " + enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
+                player.health -= dmg;
+                if (player.health < 0) player.health = 0;
+                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
+            }
+
+            for (int i = 0; i < currentCooldown.length; i++) {
+                if (currentCooldown[i] > 0) currentCooldown[i]--;
+            }
+
+            turn++;
+        }
+
+        // --- Player lost or won handling ---
+        if (player.isAlive()) {
+            typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🏆] " + player.name + " has defeated " + enemy.name + "!", 15);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t You reclaimed the Brilyante of " + enemy.element + "! [✨]", 15);
+            return true;
+        } else {
+            typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💀] " + player.name + " has fallen... The Brilyante remains with " + enemy.name + ".", 20);
+
+            // --- Ask to play again ---
+            boolean validReplay = false;
+            while (!validReplay) {
                 try {
-                    skillChoice = sc.nextInt();
-                    sc.nextLine(); // important! consume leftover newline
-                } catch (java.util.InputMismatchException e) {
-                    sc.nextLine(); // clear invalid input
-                    skillChoice = -1; // treat as a miss
-                }
+                    System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
+                    String replay = sc.nextLine().trim().toLowerCase();
 
-                if (skillChoice < 1 || skillChoice > player.skills.length) {
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t You missed your attack! [😱]", 15);
-                } else if (currentCooldown[skillChoice - 1] > 0) {
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t That skill is on cooldown! You missed your attack! [😱]", 15);
-                } else {
-                    int dmg = player.getRandomDamage(skillChoice - 1); // randomized damage
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + player.name + " used " + player.skills[skillChoice - 1] + "!", 10);
-                    enemy.health -= dmg;
-                    if (enemy.health < 0) enemy.health = 0;
-                    typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💥] " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
-
-                    currentCooldown[skillChoice - 1] = skillCooldown[skillChoice - 1];
-                }
-
-                    // Enemy attack
-                    if (enemy.isAlive()) {
-                        int enemySkill = rand.nextInt(enemy.skills.length);
-                        int dmg = enemy.getRandomDamage(enemySkill);
-                        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t " + enemy.name + " used " + enemy.skills[enemySkill] + "!", 10);
-                        player.health -= dmg;
-                        if (player.health < 0) player.health = 0;
-                        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t [🔥] " + player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
-                    }
-
-                    for (int i = 0; i < currentCooldown.length; i++) {
-                        if (currentCooldown[i] > 0) currentCooldown[i]--;
-                    }
-
-                    turn++;
-                }
-
-                    // --- Player lost or won handling ---
-                    if (player.isAlive()) {
-                        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🏆] " + player.name + " has defeated " + enemy.name + "!", 15);
-                        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t You reclaimed the Brilyante of " + enemy.element + "! [✨]", 15);
-                        return true;
+                    if (replay.equals("yes")) {
+                        validReplay = true;
+                        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🔄] Isa kang magiting na mandirigma... Maghanda sa panibagong panimula! [✨]\n", 10);
+                        main(null); // restart the game
+                        return false; // exit current battle
+                    } else if (replay.equals("no")) {
+                        validReplay = true;
+                        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🌙] Avisala Eshma! Encantadia awaits the next brave soul...", 15);
+                        prt.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Salamat sa paglalaro! [🏰✨]");
+                        return false;
                     } else {
-                        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💀] " + player.name + " has fallen... The Brilyante remains with " + enemy.name + ".", 20);
-
-                        // --- Ask to play again ---
-                        boolean validReplay = false;
-                        while (!validReplay) {
-                            try {
-                                System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
-                                String replay = sc.nextLine().trim().toLowerCase();
-
-                                if (replay.equals("yes")) {
-                                    validReplay = true;
-                                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🔄] Isa kang magiting na mandirigma... Maghanda sa panibagong panimula! [✨]\n", 10);
-                                    main(null); // restart the game
-                                    return false; // exit current battle
-                                } else if (replay.equals("no")) {
-                                    validReplay = true;
-                                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🌙] Avisala Eshma! Encantadia awaits the next brave soul...", 15);
-                                    prt.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Salamat sa paglalaro! [🏰✨]");
-                                    return false;
-                                } else {
-                                    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Ashtadi! Please input 'Yes' o 'No'.");
-                                }
-
-                            } catch (Exception e) {
-                                System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Patawad! Something went wrong. Please try again.");
-                            }
-                        }
-
-                        return false; // fallback
+                        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Ashtadi! Please input 'Yes' o 'No'.");
                     }
+
+                } catch (Exception e) {
+                    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Patawad! Something went wrong. Please try again.");
+                }
+            }
+
+            return false; // fallback
+        }
     }
 
 
@@ -229,111 +233,111 @@ public class EncantadiaGame {
                 else System.out.println(" ✅ Ready!");
             }
 
-                    int choice1;
-                    try {
-                        System.out.print("\t\t\t\t\t\t\t\t Cast your skill: ");
-                        choice1 = sc.nextInt() - 1;
-                        sc.nextLine();
-                    } catch (Exception e) {
-                        sc.nextLine();
-                        choice1 = -1;
-                    }
+            int choice1;
+            try {
+                System.out.print("\t\t\t\t\t\t\t\t Cast your skill: ");
+                choice1 = sc.nextInt() - 1;
+                sc.nextLine();
+            } catch (Exception e) {
+                sc.nextLine();
+                choice1 = -1;
+            }
 
-                    if (choice1 < 0 || choice1 >= player1.skills.length || currentCD1[choice1] > 0) {
-                        typePrint("\t\t\t\t\t\t\t\t Missed your attack! [😱]", 15);
-                    } else {
-                        int dmg = player1.getRandomDamage(choice1);
-                        typePrint("\t\t\t\t\t\t\t\t " + player1.name + " used " + player1.skills[choice1] + "!", 10);
-                        player2.health -= dmg;
-                        if (player2.health < 0) player2.health = 0;
-                        typePrint("\t\t\t\t\t\t\t\t [💥] " + player2.name + " took " + dmg + " damage! Remaining HP: " + player2.health, 10);
-                        currentCD1[choice1] = cooldown1[choice1];
-                    }
+            if (choice1 < 0 || choice1 >= player1.skills.length || currentCD1[choice1] > 0) {
+                typePrint("\t\t\t\t\t\t\t\t Missed your attack! [😱]", 15);
+            } else {
+                int dmg = player1.getRandomDamage(choice1);
+                typePrint("\t\t\t\t\t\t\t\t " + player1.name + " used " + player1.skills[choice1] + "!", 10);
+                player2.health -= dmg;
+                if (player2.health < 0) player2.health = 0;
+                typePrint("\t\t\t\t\t\t\t\t [💥] " + player2.name + " took " + dmg + " damage! Remaining HP: " + player2.health, 10);
+                currentCD1[choice1] = cooldown1[choice1];
+            }
 
-                    if (!player2.isAlive()) break;
+            if (!player2.isAlive()) break;
 
-                    // --- Player 2 Turn ---
-                    typePrint("\n\t\t\t\t\t\t\t\t" + player2.name + "'s turn! Choose a skill:", 10);
-                    for (int i = 0; i < player2.skills.length; i++) {
-                        System.out.print("\t\t\t\t\t\t\t\t " + (i + 1) + ". " + player2.skills[i] +
-                                " 🔥 Damage: " + player2.damageRange[i][0] + "-" + player2.damageRange[i][1]);
-                        if (currentCD2[i] > 0) System.out.println(" ⏳ Cooldown: " + currentCD2[i] + " turn(s) 🔒");
-                        else System.out.println(" ✅ Ready!");
-                    }
+            // --- Player 2 Turn ---
+            typePrint("\n\t\t\t\t\t\t\t\t" + player2.name + "'s turn! Choose a skill:", 10);
+            for (int i = 0; i < player2.skills.length; i++) {
+                System.out.print("\t\t\t\t\t\t\t\t " + (i + 1) + ". " + player2.skills[i] +
+                        " 🔥 Damage: " + player2.damageRange[i][0] + "-" + player2.damageRange[i][1]);
+                if (currentCD2[i] > 0) System.out.println(" ⏳ Cooldown: " + currentCD2[i] + " turn(s) 🔒");
+                else System.out.println(" ✅ Ready!");
+            }
 
-                            int choice2;
-                            try {
-                                System.out.print("\t\t\t\t\t\t\t\t Cast your skill: ");
-                                choice2 = sc.nextInt() - 1;
-                                sc.nextLine();
-                            } catch (Exception e) {
-                                sc.nextLine();
-                                choice2 = -1;
-                            }
+            int choice2;
+            try {
+                System.out.print("\t\t\t\t\t\t\t\t Cast your skill: ");
+                choice2 = sc.nextInt() - 1;
+                sc.nextLine();
+            } catch (Exception e) {
+                sc.nextLine();
+                choice2 = -1;
+            }
 
-                            if (choice2 < 0 || choice2 >= player2.skills.length || currentCD2[choice2] > 0) {
-                                typePrint("\t\t\t\t\t\t\t\t Missed your attack! [😱]", 15);
-                            } else {
-                                int dmg = player2.getRandomDamage(choice2);
-                                typePrint("\t\t\t\t\t\t\t\t " + player2.skills[choice2] + " used by " + player2.name + "!", 10);
-                                player1.health -= dmg;
-                                if (player1.health < 0) player1.health = 0;
-                                typePrint("\t\t\t\t\t\t\t\t [🔥] " + player1.name + " took " + dmg + " damage! Remaining HP: " + player1.health, 10);
-                                currentCD2[choice2] = cooldown2[choice2];
-                            }
+            if (choice2 < 0 || choice2 >= player2.skills.length || currentCD2[choice2] > 0) {
+                typePrint("\t\t\t\t\t\t\t\t Missed your attack! [😱]", 15);
+            } else {
+                int dmg = player2.getRandomDamage(choice2);
+                typePrint("\t\t\t\t\t\t\t\t " + player2.skills[choice2] + " used by " + player2.name + "!", 10);
+                player1.health -= dmg;
+                if (player1.health < 0) player1.health = 0;
+                typePrint("\t\t\t\t\t\t\t\t [🔥] " + player1.name + " took " + dmg + " damage! Remaining HP: " + player1.health, 10);
+                currentCD2[choice2] = cooldown2[choice2];
+            }
 
-                            // --- Decrease cooldowns ---
-                            for (int i = 0; i < currentCD1.length; i++) if (currentCD1[i] > 0) currentCD1[i]--;
-                            for (int i = 0; i < currentCD2.length; i++) if (currentCD2[i] > 0) currentCD2[i]--;
+            // --- Decrease cooldowns ---
+            for (int i = 0; i < currentCD1.length; i++) if (currentCD1[i] > 0) currentCD1[i]--;
+            for (int i = 0; i < currentCD2.length; i++) if (currentCD2[i] > 0) currentCD2[i]--;
 
-                            turn++;
-                        }
+            turn++;
+        }
 
-                            // --- Battle Result ---
-                            if (player1.isAlive()) {
-                                typePrint("\n\t\t\t\t\t\t\t\t Mabuhay! [🏆] " + player1.name + " wins!", 15);
-                            } else {
-                                typePrint("\n\t\t\t\t\t\t\t\t Mabuhay! [💀] " + player2.name + " wins!", 15);
-                            }
+        // --- Battle Result ---
+        if (player1.isAlive()) {
+            typePrint("\n\t\t\t\t\t\t\t\t Mabuhay! [🏆] " + player1.name + " wins!", 15);
+        } else {
+            typePrint("\n\t\t\t\t\t\t\t\t Mabuhay! [💀] " + player2.name + " wins!", 15);
+        }
 
-                            // --- Ask both players to play again ---
-                            boolean p1Replay = false;
-                            boolean p2Replay = false;
+        // --- Ask both players to play again ---
+        boolean p1Replay = false;
+        boolean p2Replay = false;
 
-                            System.out.print("\n\t\t\t\t\t\t\t\t " + player1.name + ", do you wish to play again? (Yes/No): ");
-                            if (sc.nextLine().trim().equalsIgnoreCase("yes")) p1Replay = true;
+        System.out.print("\n\t\t\t\t\t\t\t\t " + player1.name + ", do you wish to play again? (Yes/No): ");
+        if (sc.nextLine().trim().equalsIgnoreCase("yes")) p1Replay = true;
 
-                            System.out.print("\t\t\t\t\t\t\t\t " + player2.name + ", do you wish to play again? (Yes/No): ");
-                            if (sc.nextLine().trim().equalsIgnoreCase("yes")) p2Replay = true;
+        System.out.print("\t\t\t\t\t\t\t\t " + player2.name + ", do you wish to play again? (Yes/No): ");
+        if (sc.nextLine().trim().equalsIgnoreCase("yes")) p2Replay = true;
 
-                            if (p1Replay && p2Replay) {
-                                player1.health = 500;
-                                player2.health = 500;
-                                battlePvP(player1, player2); // restart
-                            } else {
-                                typePrint("\n\t\t\t\t\t\t\t\t Game ended...", 15);
+        if (p1Replay && p2Replay) {
+            player1.health = 500;
+            player2.health = 500;
+            battlePvP(player1, player2); // restart
+        } else {
+            typePrint("\n\t\t\t\t\t\t\t\t Game ended...", 15);
 
-                                // --- Ask to play again ---
-                                boolean validReplay = false;
-                                while (!validReplay) {
-                                    System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
-                                    String replay = sc.next().trim().toLowerCase();
+            // --- Ask to play again ---
+            boolean validReplay = false;
+            while (!validReplay) {
+                System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
+                String replay = sc.next().trim().toLowerCase();
 
-                                    if (replay.equalsIgnoreCase("yes")) {
-                                        validReplay = true;
-                                        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🔄] Isa kang magiting na mandirigma... Maghanda sa panibagong panimula! [✨]\n", 10);
-                                        main(null); // restart the game
-                                        return; // prevent further execution in current main
-                                    } else if (replay.equalsIgnoreCase("no")) {
-                                        validReplay = true;
-                                        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🌙] Avisala Eshma! Encantadia awaits the next brave soul...", 15);
-                                        return; // exit
-                                    } else {
-                                        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Ashtadi! Please input 'Yes' o 'No'."); // invalid input
-                                        sc.nextLine(); // clear buffer
-                                    }
-                                }
-                            }
+                if (replay.equalsIgnoreCase("yes")) {
+                    validReplay = true;
+                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🔄] Isa kang magiting na mandirigma... Maghanda sa panibagong panimula! [✨]\n", 10);
+                    main(null); // restart the game
+                    return; // prevent further execution in current main
+                } else if (replay.equalsIgnoreCase("no")) {
+                    validReplay = true;
+                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🌙] Avisala Eshma! Encantadia awaits the next brave soul...", 15);
+                    return; // exit
+                } else {
+                    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Ashtadi! Please input 'Yes' o 'No'."); // invalid input
+                    sc.nextLine(); // clear buffer
+                }
+            }
+        }
     }
 
 
@@ -371,26 +375,26 @@ public class EncantadiaGame {
         int choice = -1;
         boolean validChoice = false;
 
-                while (!validChoice) {
-                    typePrintInline(String.format("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   %s, choose your Sang'gre: ", playerName), 3);
+        while (!validChoice) {
+            typePrintInline(String.format("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   %s, choose your Sang'gre: ", playerName), 3);
 
-                    try {
-                        String line = sc.nextLine().trim();
-                        choice = Integer.parseInt(line);
+            try {
+                String line = sc.nextLine().trim();
+                choice = Integer.parseInt(line);
 
-                        if (choice < 1 || choice > options.length) {
-                            System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Please enter a valid number.");
-                            continue;
-                        }
-
-                        validChoice = true;
-                    } catch (NumberFormatException e) {
-                        System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Invalid input! Enter a number.");
-                    }
+                if (choice < 1 || choice > options.length) {
+                    System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Please enter a valid number.");
+                    continue;
                 }
 
-                return options[choice - 1];
+                validChoice = true;
+            } catch (NumberFormatException e) {
+                System.out.println("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t      Invalid input! Enter a number.");
             }
+        }
+
+        return options[choice - 1];
+    }
 
 
 
@@ -426,38 +430,38 @@ public class EncantadiaGame {
             prt.print("======");
         }
 
-            typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t[🌌][✨]Avisala! Maligayang paglalakbay sa mundo ng Encantadia![✨][🌌]\t\t +\t\t\t\t\t\t", 5);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\tLegends whisper of heroes who shaped the fate of kingdoms...             \t\t +\t\t\t\t\t\t\t\t", 5);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\tDo you dare take the first step into destiny?                            \t\t +\t\t\t\t\t\t\t\t", 5);
-            prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                 \t\t +\t\t\t\t\t\t\t\t");
-            prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t------------------------------------------------------------------------ \t\t +\t\t\t\t\t\t\t\t");
-            prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                 \t\t +\t\t\t\t\t\t\t\t");
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [⚔️] Press 1 to begin your journey.                                            \t\t +\t\t\t\t\t\t\t\t ", 5);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [❌] Press any other key to turn back and remain in the ordinary world.        \t\t +\t\t\t\t\t\t\t\t", 5);
-            prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-            for (int i2 = 1; i2 <= 15; i2++) {
+        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t[🌌][✨]Avisala! Maligayang paglalakbay sa mundo ng Encantadia![✨][🌌]\t\t +\t\t\t\t\t\t", 5);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\tLegends whisper of heroes who shaped the fate of kingdoms...             \t\t +\t\t\t\t\t\t\t\t", 5);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\tDo you dare take the first step into destiny?                            \t\t +\t\t\t\t\t\t\t\t", 5);
+        prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                 \t\t +\t\t\t\t\t\t\t\t");
+        prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t------------------------------------------------------------------------ \t\t +\t\t\t\t\t\t\t\t");
+        prt.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                 \t\t +\t\t\t\t\t\t\t\t");
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [⚔️] Press 1 to begin your journey.                                            \t\t +\t\t\t\t\t\t\t\t ", 5);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [❌] Press any other key to turn back and remain in the ordinary world.        \t\t +\t\t\t\t\t\t\t\t", 5);
+        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        for (int i2 = 1; i2 <= 15; i2++) {
+            prt.print("======");
+        }
+        typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  [👉] Choose Your Fate: ", 8);
+        String start = sc.nextLine().trim();
+
+        // If player chooses anything other than 1
+        if (!start.equals("1")) {
+            prt.println();
+            prt.println();
+            prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+            for (int i2 = 1; i2 <= 17; i2++) {
                 prt.print("======");
             }
-            typePrintInline("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  [👉] Choose Your Fate: ", 8);
-            String start = sc.nextLine().trim();
 
-            // If player chooses anything other than 1
-                    if (!start.equals("1")) {
-                        prt.println();
-                        prt.println();
-                        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-                        for (int i2 = 1; i2 <= 17; i2++) {
-                            prt.print("======");
-                        }
-
-                        prt.println();
-                        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+        ✰            ᚢ                                ☩                           +", 3);
-                        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ The gates are closing. Encantadia shall await another soul brave enough to enter. +", 3);
-                        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                    ⊕        ⊙                              ✦                      +", 3);
-                        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-                        for (int i2 = 1; i2 <= 17; i2++) {
-                            prt.print("======");
-                        }
+            prt.println();
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+        ✰            ᚢ                                ☩                           +", 3);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ The gates are closing. Encantadia shall await another soul brave enough to enter. +", 3);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                    ⊕        ⊙                              ✦                      +", 3);
+            prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+            for (int i2 = 1; i2 <= 17; i2++) {
+                prt.print("======");
+            }
 
             // --- Ask to play again ---
             boolean validReplay = false;
@@ -578,72 +582,77 @@ public class EncantadiaGame {
                 new int[][]{{35, 45}, {50, 60}, {70, 80}});
 
 
-                Character[] allCharacters = {Jelian, Mary, Joygen, Dirk, Pirena, Amihan, Alena, Danaya};
-                Character[] playerCharacters;
-                Character[] enemies = null;
+        Character[] allCharacters = {Jelian, Mary, Joygen, Dirk, Pirena, Amihan, Alena, Danaya};
+        Character[] playerCharacters;
+        Character[] enemies = null;
 
-                // --- Game mode selection ---
-                int gameMode = GameMode.chooseGameMode();
+        // --- Game mode selection ---
+        int gameMode = GameMode.chooseGameMode();
 
-                if (gameMode == 1) { // PvP
-                    playerCharacters = new Character[2];
-                    playerCharacters[0] = chooseCharacterFancy("Player 1", allCharacters);
+        if (gameMode == 1) { // PvP
+            playerCharacters = new Character[2];
+            playerCharacters[0] = chooseCharacterFancy("Player 1", allCharacters);
 
-                    Character[] remaining = Arrays.stream(allCharacters)
-                            .filter(c -> c != playerCharacters[0])
-                            .toArray(Character[]::new);
+            Character[] remaining = Arrays.stream(allCharacters)
+                    .filter(c -> c != playerCharacters[0])
+                    .toArray(Character[]::new);
 
-                    playerCharacters[1] = chooseCharacterFancy("Player 2", remaining);
+            playerCharacters[1] = chooseCharacterFancy("Player 2", remaining);
 
-                    // --- Show backstories ---
-                    showBackstory(playerCharacters[0]);
-                    showBackstory(playerCharacters[1]);
+            // --- Show backstories ---
+            showBackstory(playerCharacters[0]);
+            showBackstory(playerCharacters[1]);
 
-                    // --- Call PvP battle ---
-                    battlePvP(playerCharacters[0], playerCharacters[1]);
+            // --- Call PvP battle ---
+            battlePvP(playerCharacters[0], playerCharacters[1]);
 
-                } else if (gameMode == 2) { // PvE
-                    playerCharacters = new Character[1];
-                    playerCharacters[0] = chooseCharacterFancy("Player", allCharacters);
-                    enemies = new Character[]{Pirena, Amihan, Alena, Danaya};
+        } else if (gameMode == 2) { // PvE
+            playerCharacters = new Character[1];
+            playerCharacters[0] = chooseCharacterFancy("Player", allCharacters);
+            enemies = new Character[]{Pirena, Amihan, Alena, Danaya};
 
-                    // --- Show player backstory ---
-                    showBackstory(playerCharacters[0]);
+            // --- Show player backstory ---
+            showBackstory(playerCharacters[0]);
 
-                    for (Character enemy : enemies) {
-                        enemy.health = 500;
-                        boolean won = battle(playerCharacters[0], enemy, 2); // PvE battle
-                        if (!won) return;
-                    }
+            for (Character enemy : enemies) {
+                enemy.health = 500;
+                boolean won = battle(playerCharacters[0], enemy, 2); // PvE battle
+                if (!won) return;
+            }
 
-                } else if (gameMode == 3) { // Arcade
-                    playerCharacters = new Character[1];
-                    Character[] arcadeChoices = {Jelian, Mary, Joygen, Dirk};
-                    playerCharacters[0] = chooseCharacterFancy("Player", arcadeChoices);
-                    enemies = Arrays.stream(arcadeChoices)
-                            .filter(c -> c != playerCharacters[0])
-                            .toArray(Character[]::new);
+        } else if (gameMode == 3) { // Arcade
+            playerCharacters = new Character[1];
 
-                    // --- Show player backstory ---
-                    showBackstory(playerCharacters[0]);
+            // Allow player to pick from all 8 characters
+            playerCharacters[0] = chooseCharacterFancy("Player", allCharacters);
 
-                    for (Character enemy : enemies) {
-                        enemy.health = 500;
-                        boolean won = battle(playerCharacters[0], enemy, 3); // Arcade battle
-                        if (!won) return;
-                    }
-                } else {
-                    // Default fallback
-                    playerCharacters = new Character[1];
-                    playerCharacters[0] = Jelian;
-                    enemies = new Character[]{Pirena, Amihan, Alena, Danaya};
+            // Enemies are all characters except the one picked
+            enemies = Arrays.stream(allCharacters)
+                    .filter(c -> c != playerCharacters[0])
+                    .toArray(Character[]::new);
 
-                    for (Character enemy : enemies) {
-                        enemy.health = 500;
-                        boolean won = battle(playerCharacters[0], enemy, 0);
-                        if (!won) return;
-                    }
-                }
+            // --- Show player backstory ---
+            showBackstory(playerCharacters[0]);
+
+            // Battle each enemy in order
+            for (Character enemy : enemies) {
+                enemy.health = 500;
+                boolean won = battle(playerCharacters[0], enemy, 3); // Arcade battle
+                if (!won) return;
+            }
+
+        } else {
+            // Default fallback
+            playerCharacters = new Character[1];
+            playerCharacters[0] = Jelian;
+            enemies = new Character[]{Pirena, Amihan, Alena, Danaya};
+
+            for (Character enemy : enemies) {
+                enemy.health = 500;
+                boolean won = battle(playerCharacters[0], enemy, 0);
+                if (!won) return;
+            }
+        }
 
         // Brilyante quest loop
         int brilyantesCollected = 0;
