@@ -3,20 +3,20 @@ public class showDirkandDanaya extends Backstory {
     public void showBackstoryMain(){
         EncantadiaGame.prt.println();
         EncantadiaGame.prt.println();
-        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t");
+        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 29; i2++) {
             EncantadiaGame.prt.print("=====");
         }
 
-        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Dirk's Backstory]\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t\t Emerged from the heart of Siera Madre, they said it to be the child of the world's heartbeat.\t\t\t\t\t\t+", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t Yet, whispered among the villages was a warning—that such a gift bore the weight of endless sacrifice.\t\t\t\t\t+", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t\t\t Every field of soil flourished, as if they bow when his presences lingers among land.\t\t\t\t\t\t\t+", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\t His dedication and vow to provide protection the lands made it his life's value, as much as he values the soil.\t\t\t+", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t\t A skillful warrior with a heart made with steel, capable of upbringing his earthly prowess.\t\t\t\t\t\t+", 8);
-        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
-        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t");
+        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Dirk's Backstory]\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t\t Emerged from the heart of Siera Madre, they said it to be the child of the world's heartbeat.\t\t\t\t\t\t+", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t Yet, whispered among the villages was a warning—that such a gift bore the weight of endless sacrifice.\t\t\t\t\t+", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t\t\t Every field of soil flourished, as if they bow when his presences lingers among land.\t\t\t\t\t\t\t+", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+ \t\t\t\t\t His dedication and vow to provide protection the lands made it his life's value, as much as he values the soil.\t\t\t+", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t\t A skillful warrior with a heart made with steel, capable of upbringing his earthly prowess.\t\t\t\t\t\t+", 8);
+        EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+", 8);
+        EncantadiaGame.prt.print("\t\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 29; i2++) {
             EncantadiaGame.prt.print("=====");
         }
