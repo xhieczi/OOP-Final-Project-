@@ -11,7 +11,9 @@ public class EncantadiaGame {
     static showDirkandDanaya DAAB = new showDirkandDanaya();
     static showJoygenAndPerina JAPB = new showJoygenAndPerina();
     static showMaryAndAlena MAAB = new showMaryAndAlena();
+    static printingAsciiArts paa = new printingAsciiArts();
     static int turn = 1;
+    static RoundCounter counter = new RoundCounter();
     private static Character player;
     private static int choice;
 
@@ -102,7 +104,7 @@ public class EncantadiaGame {
         int round = 1;
 
         while (player.isAlive() && enemy.isAlive()) {
-
+            counter.displayRound();
             System.out.println("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t              ═══════════════════════════════════════════════════");
             System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t                                    TURN " + turn + " ⚔️");
             System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t              ═══════════════════════════════════════════════════");
@@ -209,7 +211,7 @@ public class EncantadiaGame {
     static void battlePvP(Character player1, Character player2) {
         int turn = 1;
         Scanner sc = new Scanner(System.in);
-
+        int tabPrintAmount = 13;
         // Cooldown setup for both players
         int[] cooldown1 = {0, 2, 3}; // per skill
         int[] currentCD1 = {0, 0, 0};
@@ -217,17 +219,40 @@ public class EncantadiaGame {
         int[] currentCD2 = {0, 0, 0};
 
         while (player1.isAlive() && player2.isAlive()) {
-            System.out.println("\n\t\t\t\t\t\t\t\t═══════════════════════════════════════════════════");
-            System.out.println("\t\t\t\t\t\t\t\t\t           TURN " + turn + " ⚔️");
-            System.out.println("\t\t\t\t\t\t\t\t═══════════════════════════════════════════════════\n");
+            counter.displayRound();
+            prt.println("\n\n\n");
+            paa.tabPrinter(20);
+            System.out.println("═══════════════════════════════════════════════════");
+            paa.tabPrinter(20);
+            System.out.println("          \uD83C\uDF0A ⛰ . \uD83C\uDF0A ⛰   ~~ ⛰   ~    ✦     ");
+            paa.tabPrinter(25);
+            System.out.println("//TURN\\\\ " + turn + " ⚔️");
+            paa.tabPrinter(20);
+            System.out.println("          ☁  . ☁  .  . ✦  ~  \uD83D\uDD25   \uD83D\uDD25 \uD83D\uDD25~");
+            paa.tabPrinter(20);
+            System.out.println("═══════════════════════════════════════════════════\n");
 
-            System.out.println("\t\t\t\t\t\t\t\t" + player1.name + " HP: " + player1.health + " | " + player2.name + " HP: " + player2.health);
-            typePrint("\t\t\t\t\t\t\t\t---------------------------------------------------------------", 10);
+            paa.tabPrinter(tabPrintAmount - 9);
+            System.out.println("l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l\n");
+            paa.tabPrinter(tabPrintAmount);
+            System.out.println("                                  */->                         <-/*                                ");
+            paa.tabPrinter(tabPrintAmount - 4);
+            System.out.printf("%-45s [HP: %3d]     ///[⚔️]\\\\\\     %-45s [HP: %3d]\n", player1.name, player1.health, player2.name, player2.health);
+            //System.out.printf(player1.name + " HP: " + player1.health + " ///[⚔️]\\\\\\ " + player2.name + " HP: " + player2.health);
+            paa.tabPrinter(tabPrintAmount);
+            System.out.println("                                                                                                                                \n");
+            paa.tabPrinter(tabPrintAmount - 9);
+            System.out.println("l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l\n");
+            paa.tabPrinter(tabPrintAmount);
+            typePrint("----------------------------------------------------", 10);
 
             // --- Player 1 Turn ---
-            typePrint("\n\t\t\t\t\t\t\t\t" + player1.name + "'s turn! Choose a skill:", 10);
+            prt.println();
+            paa.tabPrinter(tabPrintAmount);
+            typePrint(player1.name + "'s turn! Choose a skill:\n", 10);
             for (int i = 0; i < player1.skills.length; i++) {
-                System.out.print("\t\t\t\t\t\t\t\t " + (i + 1) + ". " + player1.skills[i] +
+                paa.tabPrinter(tabPrintAmount);
+                System.out.print((i + 1) + ". " + player1.skills[i] +
                         " 🔥 Damage: " + player1.damageRange[i][0] + "-" + player1.damageRange[i][1]);
                 if (currentCD1[i] > 0) System.out.println(" ⏳ Cooldown: " + currentCD1[i] + " turn(s) 🔒");
                 else System.out.println(" ✅ Ready!");
@@ -235,7 +260,8 @@ public class EncantadiaGame {
 
             int choice1;
             try {
-                System.out.print("\t\t\t\t\t\t\t\t Cast your skill: ");
+                paa.tabPrinter(tabPrintAmount);
+                System.out.print(" Cast your skill: ");
                 choice1 = sc.nextInt() - 1;
                 sc.nextLine();
             } catch (Exception e) {
@@ -244,22 +270,28 @@ public class EncantadiaGame {
             }
 
             if (choice1 < 0 || choice1 >= player1.skills.length || currentCD1[choice1] > 0) {
-                typePrint("\t\t\t\t\t\t\t\t Missed your attack! [😱]", 15);
+                paa.tabPrinter(tabPrintAmount);
+                typePrint(" Missed your attack! [😱]", 15);
             } else {
                 int dmg = player1.getRandomDamage(choice1);
-                typePrint("\t\t\t\t\t\t\t\t " + player1.name + " used " + player1.skills[choice1] + "!", 10);
+                paa.tabPrinter(tabPrintAmount);
+                typePrint(" " + player1.name + " used " + player1.skills[choice1] + "!", 10);
                 player2.health -= dmg;
                 if (player2.health < 0) player2.health = 0;
-                typePrint("\t\t\t\t\t\t\t\t [💥] " + player2.name + " took " + dmg + " damage! Remaining HP: " + player2.health, 10);
+                paa.tabPrinter(tabPrintAmount);
+                typePrint(" [💥] " + player2.name + " took " + dmg + " damage! Remaining HP: " + player2.health, 10);
                 currentCD1[choice1] = cooldown1[choice1];
             }
 
             if (!player2.isAlive()) break;
 
             // --- Player 2 Turn ---
-            typePrint("\n\t\t\t\t\t\t\t\t" + player2.name + "'s turn! Choose a skill:", 10);
+            prt.println();
+            paa.tabPrinter(tabPrintAmount);
+            typePrint(player2.name + "'s turn! Choose a skill:", 10);
             for (int i = 0; i < player2.skills.length; i++) {
-                System.out.print("\t\t\t\t\t\t\t\t " + (i + 1) + ". " + player2.skills[i] +
+                paa.tabPrinter(tabPrintAmount);
+                System.out.print((i + 1) + ". " + player2.skills[i] +
                         " 🔥 Damage: " + player2.damageRange[i][0] + "-" + player2.damageRange[i][1]);
                 if (currentCD2[i] > 0) System.out.println(" ⏳ Cooldown: " + currentCD2[i] + " turn(s) 🔒");
                 else System.out.println(" ✅ Ready!");
@@ -267,7 +299,8 @@ public class EncantadiaGame {
 
             int choice2;
             try {
-                System.out.print("\t\t\t\t\t\t\t\t Cast your skill: ");
+                paa.tabPrinter(tabPrintAmount);
+                System.out.print("Cast your skill: ");
                 choice2 = sc.nextInt() - 1;
                 sc.nextLine();
             } catch (Exception e) {
@@ -276,13 +309,16 @@ public class EncantadiaGame {
             }
 
             if (choice2 < 0 || choice2 >= player2.skills.length || currentCD2[choice2] > 0) {
-                typePrint("\t\t\t\t\t\t\t\t Missed your attack! [😱]", 15);
+                paa.tabPrinter(tabPrintAmount);
+                typePrint("Missed your attack! [😱]", 15);
             } else {
                 int dmg = player2.getRandomDamage(choice2);
-                typePrint("\t\t\t\t\t\t\t\t " + player2.skills[choice2] + " used by " + player2.name + "!", 10);
+                paa.tabPrinter(tabPrintAmount);
+                typePrint(player2.skills[choice2] + " used by " + player2.name + "!", 10);
                 player1.health -= dmg;
                 if (player1.health < 0) player1.health = 0;
-                typePrint("\t\t\t\t\t\t\t\t [🔥] " + player1.name + " took " + dmg + " damage! Remaining HP: " + player1.health, 10);
+                paa.tabPrinter(tabPrintAmount);
+                typePrint("[🔥] " + player1.name + " took " + dmg + " damage! Remaining HP: " + player1.health, 10);
                 currentCD2[choice2] = cooldown2[choice2];
             }
 
@@ -291,23 +327,32 @@ public class EncantadiaGame {
             for (int i = 0; i < currentCD2.length; i++) if (currentCD2[i] > 0) currentCD2[i]--;
 
             turn++;
+            counter.nextRound();
         }
 
         // --- Battle Result ---
         if (player1.isAlive()) {
-            typePrint("\n\t\t\t\t\t\t\t\t Mabuhay! [🏆] " + player1.name + " wins!", 15);
+            prt.println();
+            paa.tabPrinter(tabPrintAmount);
+            typePrint("Mabuhay! [🏆] " + player1.name + " wins!", 15);
         } else {
-            typePrint("\n\t\t\t\t\t\t\t\t Mabuhay! [💀] " + player2.name + " wins!", 15);
+            prt.println();
+            paa.tabPrinter(tabPrintAmount);
+            typePrint("Mabuhay! [💀] " + player2.name + " wins!", 15);
         }
 
         // --- Ask both players to play again ---
         boolean p1Replay = false;
         boolean p2Replay = false;
 
-        System.out.print("\n\t\t\t\t\t\t\t\t " + player1.name + ", do you wish to play again? (Yes/No): ");
+        prt.println();
+        paa.tabPrinter(tabPrintAmount);
+        System.out.print(player1.name + ", do you wish to play again? (Yes/No): ");
         if (sc.nextLine().trim().equalsIgnoreCase("yes")) p1Replay = true;
 
-        System.out.print("\t\t\t\t\t\t\t\t " + player2.name + ", do you wish to play again? (Yes/No): ");
+        prt.println();
+        paa.tabPrinter(tabPrintAmount);
+        System.out.print(player2.name + ", do you wish to play again? (Yes/No): ");
         if (sc.nextLine().trim().equalsIgnoreCase("yes")) p2Replay = true;
 
         if (p1Replay && p2Replay) {
@@ -315,7 +360,9 @@ public class EncantadiaGame {
             player2.health = 500;
             battlePvP(player1, player2); // restart
         } else {
-            typePrint("\n\t\t\t\t\t\t\t\t Game ended...", 15);
+            prt.println();
+            paa.tabPrinter(tabPrintAmount);
+            typePrint("Game ended...", 15);
 
             // --- Ask to play again ---
             boolean validReplay = false;
@@ -358,25 +405,25 @@ public class EncantadiaGame {
 
     // --- Character selection ---
     static Character chooseCharacterFancy(String playerName, Character[] options) {
-        prt.print("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        prt.print("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 15; i2++) prt.print("=====");
 
-        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t  ~ ~ ~ ~ ~ ~ ~ ~$[Lair of the Sang'gres]$~ ~ ~ ~ ~ ~ ~ ~\t\t  +", 8);
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t                                                         \t\t  +", 8);
-        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t                                                         \t\t  +", 8);
+        typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t  ~ ~ ~ ~ ~ ~ ~ ~$[Lair of the Sang'gres]$~ ~ ~ ~ ~ ~ ~ ~\t\t  +", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t                                                         \t\t  +", 8);
+        typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+\t\t                                                         \t\t  +", 8);
 
         for (int i = 0; i < options.length; i++) {
-            typePrint(String.format("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ [%d] %s", i + 1, options[i].name) + "  ".repeat(10) + "+", 8);
+            typePrint(String.format("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [%d] {%-48s}", i + 1, options[i].name) + " ".repeat(10), 8);
         }
 
-        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i2 = 1; i2 <= 15; i2++) prt.print("=====");
 
         int choice = -1;
         boolean validChoice = false;
 
         while (!validChoice) {
-            typePrintInline(String.format("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   %s, choose your Sang'gre: ", playerName), 3);
+            typePrintInline(String.format("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   %s, choose your Sang'gre: ", playerName), 3);
 
             try {
                 String line = sc.nextLine().trim();
@@ -401,30 +448,29 @@ public class EncantadiaGame {
     // --- display backstory ---
     static void showBackstory(Character character) {
         switch (character.name) {
-            case "Jelian (Goddess of Whispers)" -> JAAB.showBackstoryMain();
-            case "Mary (Goddess of Tides)" -> MAAB.showBackstoryMain();
-            case "Joygen (Goddess of Eternal Blaze)" -> JAPB.showBackstoryMain();
-            case "Dirk (God of Living Soil)" -> DAAB.showBackstoryMain();
-            case "Pirena" -> JAPB.showBackstoryOG();
-            case "Amihan" -> JAAB.showBackstoryOG();
-            case "Alena" -> MAAB.showBackstoryOG();
-            case "Danaya" -> DAAB.showBackstoryOG();
+            case "{Jelian | • • • (Goddess of Whispers)}" -> JAAB.showBackstoryMain();
+            case "{Mary | • • • • (Goddess of Tides)}" -> MAAB.showBackstoryMain();
+            case "{Joygen | • (Goddess of Eternal Blaze)}" -> JAPB.showBackstoryMain();
+            case "{Dirk | • (Guardian of Growth and Harvest)}" -> DAAB.showBackstoryMain();
+            case "{Pirena | • • • • • • (Fire)}" -> JAPB.showBackstoryOG();
+            case "{Amihan | • • • • • • (Air)}" -> JAAB.showBackstoryOG();
+            case "{Alena | • • • • • • (Water)}" -> MAAB.showBackstoryOG();
+            case "{Danaya | • • • • • • (Earth)}" -> DAAB.showBackstoryOG();
             default -> System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [⚠️] No backstory available.");
         }
     }
 
+    //Art
 
 
     public static void main(String[] args) {
 
         // Welcome screen
         //Start of Menu Page Program
-        prt.print("\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-        typePrint("  ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦", 8); // booting purposes
-        prt.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-        typePrint("       ☁  ⛰   \uD835\uDD08\uD835\uDD2B\uD835\uDD20\uD835\uDD1E\uD835\uDD2B\uD835\uDD31\uD835\uDD1E\uD835\uDD21\uD835\uDD26\uD835\uDD1E : \uD835\uDD4B\uD835\uDD66\uD835\uDD63\uD835\uDD5F  \uD835\uDD60\uD835\uDD57  \uD835\uDD65\uD835\uDD59\uD835\uDD56  \uD835\uDD3E\uD835\uDD56\uD835\uDD5E\uD835\uDD64  \uD83C\uDF0A \uD83D\uDD25 ", 8);
-        prt.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-        typePrint("  ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦", 8);
+
+        paa.printLoadingScreen(12);
+
+
         prt.print("\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i1 = 1; i1 <= 15; i1++) {
             prt.print("======");
@@ -449,17 +495,18 @@ public class EncantadiaGame {
         if (!start.equals("1")) {
             prt.println();
             prt.println();
-            prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-            for (int i2 = 1; i2 <= 17; i2++) {
+            prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t   ");
+
+            for (int i2 = 1; i2 <= 18; i2++) {
                 prt.print("======");
             }
 
             prt.println();
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+        ✰            ᚢ                                ☩                           +", 3);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ The gates are closing. Encantadia shall await another soul brave enough to enter. +", 3);
-            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                    ⊕        ⊙                              ✦                      +", 3);
-            prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-            for (int i2 = 1; i2 <= 17; i2++) {
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t   +\t\t\t        ✰            ᚢ                                ☩                           \t\t\t  +", 3);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t   +\t\t\t The gates are closing. Encantadia shall await another soul brave enough to enter. \t\t\t  +", 3);
+            typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t   +\t\t\t                    ⊕        ⊙                              ✦                      \t\t\t  +", 3);
+            prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t   ");
+            for (int i2 = 1; i2 <= 18; i2++) {
                 prt.print("======");
             }
 
@@ -509,7 +556,7 @@ public class EncantadiaGame {
                     for (int i1 = 1; i1 <= 18; i1++) {
                         prt.print("=====");
                     }
-                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         ------------------------- ✨ ANG NAKARAAN ✨ -------------------------        +", 10);
+                    typePrint("\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         ------------------------- ✨ ANG NAKARAAN ✨ -------------------------        +", 10);
                     typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                        +", 10);
                     typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia...        +", 10);
                     typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       Under the guidance of the Queen and her four Sang’gres, harmony reigned.         +", 10);
@@ -540,43 +587,43 @@ public class EncantadiaGame {
 
 
 // New characters (players)
-        Character Jelian = new Character("Jelian (Goddess of Whispers)", "Air",
+        Character Jelian = new Character("{Jelian | • • • (Goddess of Whispers)}", "Air",
                 new String[]{"Carbon Dioxide", "Bad Breathe", "Utot"},
                 new int[]{40, 55, 70},
                 new int[][]{{35, 45}, {50, 60}, {65, 75}});  // damage ranges
 
-        Character Mary = new Character("Mary (Goddess of Tides)", "Water",
+        Character Mary = new Character("{Mary | • • • • (Goddess of Tides)}", "Water",
                 new String[]{"Luha", "Flood Control", "Tsunami"},
                 new int[]{35, 50, 65},
                 new int[][]{{30, 40}, {45, 55}, {60, 70}});
 
-        Character Joygen = new Character("Joygen (Goddess of Eternal Blaze)", "Fire",
+        Character Joygen = new Character("{Joygen | • (Goddess of Eternal Blaze)}", "Fire",
                 new String[]{"In Heat", "Thirstrap", "Wow wow wow naay nasunog"},
                 new int[]{45, 60, 80},
                 new int[][]{{40, 50}, {55, 65}, {70, 85}});
 
-        Character Dirk = new Character("Dirk (God of Living Soil)", "Earth",
+        Character Dirk = new Character("{Dirk | • (Guardian of Growth and Harvest)}", "Earth",
                 new String[]{"Bato Dela Rosa", "Ding ang Bato", "Linog"},
                 new int[]{40, 55, 75},
                 new int[][]{{35, 45}, {50, 60}, {70, 80}});
 
 // Original Sang’gres (enemies)
-        Character Pirena = new Character("Pirena", "Fire",
+        Character Pirena = new Character("{Pirena | • • • • • • (Fire)}", "Fire",
                 new String[]{"Flame fury", "Hyperventilation", "Impyerno"},
                 new int[]{45, 60, 80},
                 new int[][]{{40, 50}, {55, 65}, {70, 85}});
 
-        Character Amihan = new Character("Amihan", "Air",
+        Character Amihan = new Character("{Amihan | • • • • • • (Air)}", "Air",
                 new String[]{"Wind Slash", "Storm Fury", "Whirlwind Strike"},
                 new int[]{40, 55, 70},
                 new int[][]{{35, 45}, {50, 60}, {65, 75}});
 
-        Character Alena = new Character("Alena", "Water",
+        Character Alena = new Character("{Alena | • • • • • • (Water)}", "Water",
                 new String[]{"Water Spear", "Ocean Wave", "Tsunami Blast"},
                 new int[]{35, 50, 65},
                 new int[][]{{30, 40}, {45, 55}, {60, 70}});
 
-        Character Danaya = new Character("Danaya", "Earth",
+        Character Danaya = new Character("{Danaya | • • • • • • (Earth)}", "Earth",
                 new String[]{"Rock Smash", "Earthquake", "Nature’s Wrath"},
                 new int[]{40, 55, 75},
                 new int[][]{{35, 45}, {50, 60}, {70, 80}});
