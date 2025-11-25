@@ -1,5 +1,3 @@
-
-
 import java.util.*;
 import java.io.*;
 
@@ -104,7 +102,8 @@ public class EncantadiaGame {
         int round = 1;
 
         while (player.isAlive() && enemy.isAlive()) {
-            counter.displayRound();
+            Character player1 = null, player2 =null;
+            counter.displayRoundScores(player1, player2);
             System.out.println("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t              ═══════════════════════════════════════════════════");
             System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t                                    TURN " + turn + " ⚔️");
             System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t              ═══════════════════════════════════════════════════");
@@ -131,7 +130,7 @@ public class EncantadiaGame {
             try {
                 skillChoice = sc.nextInt();
                 sc.nextLine(); // important! consume leftover newline
-            } catch (java.util.InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 sc.nextLine(); // clear invalid input
                 skillChoice = -1; // treat as a miss
             }
@@ -207,141 +206,160 @@ public class EncantadiaGame {
 
 
 
-    // Battle PvP method with random damage and typePrint
     static void battlePvP(Character player1, Character player2) {
-        int turn = 1;
         Scanner sc = new Scanner(System.in);
         int tabPrintAmount = 13;
-        // Cooldown setup for both players
-        int[] cooldown1 = {0, 2, 3}; // per skill
+        RoundCounter counter = new RoundCounter();
+
+        int[] cooldown1 = {0, 2, 3};
         int[] currentCD1 = {0, 0, 0};
         int[] cooldown2 = {0, 2, 3};
         int[] currentCD2 = {0, 0, 0};
 
-        while (player1.isAlive() && player2.isAlive()) {
-            counter.displayRound();
-            prt.println("\n\n\n");
-            paa.tabPrinter(20);
-            System.out.println("═══════════════════════════════════════════════════");
-            paa.tabPrinter(20);
-            System.out.println("          \uD83C\uDF0A ⛰ . \uD83C\uDF0A ⛰   ~~ ⛰   ~    ✦     ");
-            paa.tabPrinter(25);
-            System.out.println("//TURN\\\\ " + turn + " ⚔️");
-            paa.tabPrinter(20);
-            System.out.println("          ☁  . ☁  .  . ✦  ~  \uD83D\uDD25   \uD83D\uDD25 \uD83D\uDD25~");
-            paa.tabPrinter(20);
-            System.out.println("═══════════════════════════════════════════════════\n");
+        // --- Best-of-3 match loop ---
+        while (!counter.isMatchOver() && counter.getRound() <= 3) {
 
-            paa.tabPrinter(tabPrintAmount - 9);
-            System.out.println("l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l\n");
-            paa.tabPrinter(tabPrintAmount);
-            System.out.println("                                  */->                         <-/*                                ");
-            paa.tabPrinter(tabPrintAmount - 4);
-            System.out.printf("%-45s [HP: %3d]     ///[⚔️]\\\\\\     %-45s [HP: %3d]\n", player1.name, player1.health, player2.name, player2.health);
-            //System.out.printf(player1.name + " HP: " + player1.health + " ///[⚔️]\\\\\\ " + player2.name + " HP: " + player2.health);
-            paa.tabPrinter(tabPrintAmount);
-            System.out.println("                                                                                                                                \n");
-            paa.tabPrinter(tabPrintAmount - 9);
-            System.out.println("l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l l\n");
-            paa.tabPrinter(tabPrintAmount);
-            typePrint("----------------------------------------------------", 10);
+            // Reset health at start of each round
+            player1.health = 500;
+            player2.health = 500;
+            int turn = 1;
 
-            // --- Player 1 Turn ---
-            prt.println();
-            paa.tabPrinter(tabPrintAmount);
-            typePrint(player1.name + "'s turn! Choose a skill:\n", 10);
-            for (int i = 0; i < player1.skills.length; i++) {
+            // Display round and current score at the start of the round
+            counter.displayRoundScores(player1, player2);
+
+            // --- Round loop: each turn until someone dies ---
+            while (player1.isAlive() && player2.isAlive()) {
+
+                // --- ASCII Battle Display ---
+                prt.println("\n\n\n");
+                paa.tabPrinter(20);
+                System.out.println("═══════════════════════════════════════════════════");
+                paa.tabPrinter(20);
+                System.out.println("          \uD83C\uDF0A ⛰ . \uD83C\uDF0A ⛰   ~~ ⛰   ~    ✦     ");
+                paa.tabPrinter(25);
+                System.out.println("//TURN\\\\ " + turn + " ⚔️");
+                paa.tabPrinter(20);
+                System.out.println("          ☁  . ☁  .  . ✦  ~  \uD83D\uDD25   \uD83D\uDD25 \uD83D\uDD25~");
+                paa.tabPrinter(20);
+                System.out.println("═══════════════════════════════════════════════════\n");
+
+                paa.tabPrinter(tabPrintAmount - 4);
+                System.out.printf("%-45s [HP: %3d]     ///[⚔️]\\\\\\     %-45s [HP: %3d]\n",
+                        player1.name, player1.health, player2.name, player2.health);
                 paa.tabPrinter(tabPrintAmount);
-                System.out.print((i + 1) + ". " + player1.skills[i] +
-                        " 🔥 Damage: " + player1.damageRange[i][0] + "-" + player1.damageRange[i][1]);
-                if (currentCD1[i] > 0) System.out.println(" ⏳ Cooldown: " + currentCD1[i] + " turn(s) 🔒");
-                else System.out.println(" ✅ Ready!");
+                EncantadiaGame.typePrint("----------------------------------------------------", 10);
+
+                // --- Player 1 Turn ---
+                prt.println();
+                paa.tabPrinter(tabPrintAmount);
+                EncantadiaGame.typePrint(player1.name + "'s turn! Choose a skill:\n", 10);
+                for (int i = 0; i < player1.skills.length; i++) {
+                    paa.tabPrinter(tabPrintAmount);
+                    System.out.print((i + 1) + ". " + player1.skills[i] +
+                            " 🔥 Damage: " + player1.damageRange[i][0] + "-" + player1.damageRange[i][1]);
+                    if (currentCD1[i] > 0) System.out.println(" ⏳ Cooldown: " + currentCD1[i] + " turn(s) 🔒");
+                    else System.out.println(" ✅ Ready!");
+                }
+
+                int choice1;
+                try {
+                    paa.tabPrinter(tabPrintAmount);
+                    System.out.print(" Cast your skill: ");
+                    choice1 = sc.nextInt() - 1;
+                    sc.nextLine();
+                } catch (Exception e) {
+                    sc.nextLine();
+                    choice1 = -1;
+                }
+
+                if (choice1 < 0 || choice1 >= player1.skills.length || currentCD1[choice1] > 0) {
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(" Missed your attack! [😱]", 15);
+                } else {
+                    int dmg = player1.getRandomDamage(choice1);
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(player1.name + " used " + player1.skills[choice1] + "!", 10);
+                    player2.health -= dmg;
+                    if (player2.health < 0) player2.health = 0;
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(player2.name + " took " + dmg + " damage! Remaining HP: " + player2.health, 10);
+                    currentCD1[choice1] = cooldown1[choice1];
+                }
+
+                if (!player2.isAlive()) break;
+
+                // --- Player 2 Turn ---
+                prt.println();
+                paa.tabPrinter(tabPrintAmount);
+                EncantadiaGame.typePrint(player2.name + "'s turn! Choose a skill:\n", 10);
+                for (int i = 0; i < player2.skills.length; i++) {
+                    paa.tabPrinter(tabPrintAmount);
+                    System.out.print((i + 1) + ". " + player2.skills[i] +
+                            " 🔥 Damage: " + player2.damageRange[i][0] + "-" + player2.damageRange[i][1]);
+                    if (currentCD2[i] > 0) System.out.println(" ⏳ Cooldown: " + currentCD2[i] + " turn(s) 🔒");
+                    else System.out.println(" ✅ Ready!");
+                }
+
+                int choice2;
+                try {
+                    paa.tabPrinter(tabPrintAmount);
+                    System.out.print(" Cast your skill: ");
+                    choice2 = sc.nextInt() - 1;
+                    sc.nextLine();
+                } catch (Exception e) {
+                    sc.nextLine();
+                    choice2 = -1;
+                }
+
+                if (choice2 < 0 || choice2 >= player2.skills.length || currentCD2[choice2] > 0) {
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(" Missed your attack! [😱]", 15);
+                } else {
+                    int dmg = player2.getRandomDamage(choice2);
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(player2.name + " used " + player2.skills[choice2] + "!", 10);
+                    player1.health -= dmg;
+                    if (player1.health < 0) player1.health = 0;
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(player1.name + " took " + dmg + " damage! Remaining HP: " + player1.health, 10);
+                    currentCD2[choice2] = cooldown2[choice2];
+                }
+
+                // --- Decrease cooldowns ---
+                for (int i = 0; i < currentCD1.length; i++) if (currentCD1[i] > 0) currentCD1[i]--;
+                for (int i = 0; i < currentCD2.length; i++) if (currentCD2[i] > 0) currentCD2[i]--;
+
+                turn++;
             }
 
-            int choice1;
-            try {
+            // --- Round result ---
+            if (player1.isAlive() && !player2.isAlive()) {
+                counter.player1WinsRound();
+                prt.println();
                 paa.tabPrinter(tabPrintAmount);
-                System.out.print(" Cast your skill: ");
-                choice1 = sc.nextInt() - 1;
-                sc.nextLine();
-            } catch (Exception e) {
-                sc.nextLine();
-                choice1 = -1;
+                EncantadiaGame.typePrint("🏆 " + player1.name + " wins ROUND " + (counter.getRound() - 1) + "!", 15);
+            } else if (!player1.isAlive() && player2.isAlive()) {
+                counter.player2WinsRound();
+                prt.println();
+                paa.tabPrinter(tabPrintAmount);
+                EncantadiaGame.typePrint("🏆 " + player2.name + " wins ROUND " + (counter.getRound() - 1) + "!", 15);
             }
 
-            if (choice1 < 0 || choice1 >= player1.skills.length || currentCD1[choice1] > 0) {
-                paa.tabPrinter(tabPrintAmount);
-                typePrint(" Missed your attack! [😱]", 15);
-            } else {
-                int dmg = player1.getRandomDamage(choice1);
-                paa.tabPrinter(tabPrintAmount);
-                typePrint(" " + player1.name + " used " + player1.skills[choice1] + "!", 10);
-                player2.health -= dmg;
-                if (player2.health < 0) player2.health = 0;
-                paa.tabPrinter(tabPrintAmount);
-                typePrint(" [💥] " + player2.name + " took " + dmg + " damage! Remaining HP: " + player2.health, 10);
-                currentCD1[choice1] = cooldown1[choice1];
+            // --- Automatically move to next round ---
+            if (!counter.isMatchOver() && counter.getRound() <= 3) {
+                // No prompts; next round will start automatically
             }
-
-            if (!player2.isAlive()) break;
-
-            // --- Player 2 Turn ---
-            prt.println();
-            paa.tabPrinter(tabPrintAmount);
-            typePrint(player2.name + "'s turn! Choose a skill:", 10);
-            for (int i = 0; i < player2.skills.length; i++) {
-                paa.tabPrinter(tabPrintAmount);
-                System.out.print((i + 1) + ". " + player2.skills[i] +
-                        " 🔥 Damage: " + player2.damageRange[i][0] + "-" + player2.damageRange[i][1]);
-                if (currentCD2[i] > 0) System.out.println(" ⏳ Cooldown: " + currentCD2[i] + " turn(s) 🔒");
-                else System.out.println(" ✅ Ready!");
-            }
-
-            int choice2;
-            try {
-                paa.tabPrinter(tabPrintAmount);
-                System.out.print("Cast your skill: ");
-                choice2 = sc.nextInt() - 1;
-                sc.nextLine();
-            } catch (Exception e) {
-                sc.nextLine();
-                choice2 = -1;
-            }
-
-            if (choice2 < 0 || choice2 >= player2.skills.length || currentCD2[choice2] > 0) {
-                paa.tabPrinter(tabPrintAmount);
-                typePrint("Missed your attack! [😱]", 15);
-            } else {
-                int dmg = player2.getRandomDamage(choice2);
-                paa.tabPrinter(tabPrintAmount);
-                typePrint(player2.skills[choice2] + " used by " + player2.name + "!", 10);
-                player1.health -= dmg;
-                if (player1.health < 0) player1.health = 0;
-                paa.tabPrinter(tabPrintAmount);
-                typePrint("[🔥] " + player1.name + " took " + dmg + " damage! Remaining HP: " + player1.health, 10);
-                currentCD2[choice2] = cooldown2[choice2];
-            }
-
-            // --- Decrease cooldowns ---
-            for (int i = 0; i < currentCD1.length; i++) if (currentCD1[i] > 0) currentCD1[i]--;
-            for (int i = 0; i < currentCD2.length; i++) if (currentCD2[i] > 0) currentCD2[i]--;
-
-            turn++;
-            counter.nextRound();
         }
 
-        // --- Battle Result ---
-        if (player1.isAlive()) {
+        // --- Match winner & replay prompt (after rounds) ---
+        Character matchWinner = counter.getMatchWinner(player1, player2);
+        if (matchWinner != null) {
             prt.println();
             paa.tabPrinter(tabPrintAmount);
-            typePrint("Mabuhay! [🏆] " + player1.name + " wins!", 15);
-        } else {
-            prt.println();
-            paa.tabPrinter(tabPrintAmount);
-            typePrint("Mabuhay! [💀] " + player2.name + " wins!", 15);
+            EncantadiaGame.typePrint("🎉 " + matchWinner.name + " wins the MATCH! 🎉", 15);
         }
 
-        // --- Ask both players to play again ---
+        // --- Ask players if they want to play again ---
         boolean p1Replay = false;
         boolean p2Replay = false;
 
@@ -356,37 +374,17 @@ public class EncantadiaGame {
         if (sc.nextLine().trim().equalsIgnoreCase("yes")) p2Replay = true;
 
         if (p1Replay && p2Replay) {
-            player1.health = 500;
-            player2.health = 500;
-            battlePvP(player1, player2); // restart
+            battlePvP(player1, player2); // restart match
         } else {
             prt.println();
             paa.tabPrinter(tabPrintAmount);
-            typePrint("Game ended...", 15);
+            EncantadiaGame.typePrint("Redirecting to the Welcome Screen...", 15);
 
-            // --- Ask to play again ---
-            boolean validReplay = false;
-            while (!validReplay) {
-                System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
-                String replay = sc.next().trim().toLowerCase();
-
-                if (replay.equalsIgnoreCase("yes")) {
-                    validReplay = true;
-                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🔄] Isa kang magiting na mandirigma... Maghanda sa panibagong panimula! [✨]\n", 10);
-                    main(null); // restart the game
-                    return; // prevent further execution in current main
-                } else if (replay.equalsIgnoreCase("no")) {
-                    validReplay = true;
-                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🌙] Avisala Eshma! Encantadia awaits the next brave soul...", 15);
-                    return; // exit
-                } else {
-                    System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Ashtadi! Please input 'Yes' o 'No'."); // invalid input
-                    sc.nextLine(); // clear buffer
-                }
-            }
+            // Redirect to main welcome screen
+            main(null); // or call your specific method for the welcome screen
+            return; // prevent further execution in this method
         }
     }
-
 
 
     // Typewriter effect (inline, no newline at the end), for proper input
