@@ -9,10 +9,10 @@ public class GameMode {
     static PrintStream prt = System.out;
 
     static int chooseGameMode() {
-        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        prt.print("\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
-        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t\t\t\t\t✦✦✦ Choose Your Game Mode ✦✦✦\t\t\t\t\t  +", 8);
+        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t\t\t\t   ✦✦✦ Choose Your Quest ✦✦✦\t\t\t\t\t\t  +", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t\t[1] Player vs Player (Manual Battle)\t\t\t\t\t      +", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t\t[2] Player vs Enemy (Normal Mode)\t\t\t\t\t          +", 8);
         EncantadiaGame.typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+ \t\t\t[3] Arcade Mode (Player vs All)\t\t\t\t\t              +", 8);
@@ -24,7 +24,7 @@ public class GameMode {
         boolean validInput = false;
 
         while (!validInput) {
-            EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tEnter your choice: ", 3);
+            System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tChoose your battle: ");
             try {
                 mode = sc.nextInt();
                 sc.nextLine(); // clear buffer
@@ -48,14 +48,15 @@ public class GameMode {
             default -> ""; // won't reach here because of validation
         };
 
-        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
-        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t +        [🎮] You chose " + modeName + "!        +\t\t\t ", 8);
+        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+        [🎮] You chose " + modeName + "!        +\t\t\t ", 8);
 
-        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
         return mode;
     }
+
 }
