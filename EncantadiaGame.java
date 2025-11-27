@@ -391,36 +391,62 @@ public class EncantadiaGame {
         int tabPrintAmount = 13;
         RoundCounter counter = new RoundCounter();
 
+        // Skill cooldown setup
         int[] skillCooldown = {0, 2, 3};
-        int[] currentCooldown = {0, 0, 0};
+        int[] currentCDPlayer = {0, 0, 0};
+        int[] currentCDEnemy = {0, 0, 0};
 
-        // --- Best-of-3 rounds ---
-        while (!counter.isMatchOver() && counter.getRound() <= 3) {
-            // Reset health for new round
+        // --- Best-of-3 match loop ---
+        while (!counter.isMatchOver()) {
+
+            // Reset Health AND Cooldowns at start of round
             player.health = 500;
             enemy.health = 500;
+            Arrays.fill(currentCDPlayer, 0);
+            Arrays.fill(currentCDEnemy, 0);
             int turn = 1;
 
-            // Show round info and score
+            // Display round info
             counter.displayRoundScores(player, enemy);
 
-            // --- Round loop ---
+            // --- Single Round Loop ---
             while (player.isAlive() && enemy.isAlive()) {
 
-                // Player turn
-                System.out.println("\nTurn " + turn);
-                System.out.println(player.name + " HP: " + player.health + " | " + enemy.name + " HP: " + enemy.health);
+                // --- ASCII Battle Display (Same as PvP) ---
+                prt.println("\n\n\n");
+                paa.tabPrinter(20);
+                System.out.println("═══════════════════════════════════════════════════");
+                paa.tabPrinter(20);
+                System.out.println("          \uD83C\uDF0A ⛰ . \uD83C\uDF0A ⛰   ~~ ⛰   ~    ✦     ");
+                paa.tabPrinter(25);
+                System.out.println("//TURN\\\\ " + turn + " ⚔️");
+                paa.tabPrinter(20);
+                System.out.println("          ☁  . ☁  .  . ✦  ~  \uD83D\uDD25   \uD83D\uDD25 \uD83D\uDD25~");
+                paa.tabPrinter(20);
+                System.out.println("═══════════════════════════════════════════════════\n");
 
-                // Show skills
+                paa.tabPrinter(tabPrintAmount - 4);
+                System.out.printf("%-45s [HP: %3d]     ///[⚔️]\\\\\\     %-45s [HP: %3d]\n",
+                        player.name, player.health, enemy.name, enemy.health);
+                paa.tabPrinter(tabPrintAmount);
+                EncantadiaGame.typePrint("----------------------------------------------------", 10);
+
+                // --- Player Turn ---
+                prt.println();
+                paa.tabPrinter(tabPrintAmount);
+                EncantadiaGame.typePrint(player.name + "'s turn! Choose a skill:\n", 10);
                 for (int i = 0; i < player.skills.length; i++) {
-                    System.out.print((i + 1) + ". " + player.skills[i] + " 🔥 Damage: " + player.damageRange[i][0] + "-" + player.damageRange[i][1]);
-                    if (currentCooldown[i] > 0) System.out.println(" ⏳ Cooldown: " + currentCooldown[i] + " turn(s) 🔒");
+                    paa.tabPrinter(tabPrintAmount);
+                    System.out.print((i + 1) + ". " + player.skills[i] +
+                            " 🔥 Damage: " + player.damageRange[i][0] + "-" + player.damageRange[i][1]);
+                    if (currentCDPlayer[i] > 0) System.out.println(" ⏳ Cooldown: " + currentCDPlayer[i] + " turn(s) 🔒");
                     else System.out.println(" ✅ Ready!");
                 }
 
-                // Player chooses skill
                 int choice;
                 try {
+                    paa.tabPrinter(tabPrintAmount);
+                    System.out.print(" Cast your skill: ");
                     choice = sc.nextInt() - 1;
                     sc.nextLine();
                 } catch (Exception e) {
@@ -428,47 +454,81 @@ public class EncantadiaGame {
                     choice = -1;
                 }
 
-                if (choice < 0 || choice >= player.skills.length || currentCooldown[choice] > 0) {
-                    System.out.println("Missed attack! [😱]");
+                if (choice < 0 || choice >= player.skills.length || currentCDPlayer[choice] > 0) {
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(" You missed your attack! [😱]", 15);
                 } else {
                     int dmg = player.getRandomDamage(choice);
-                    System.out.println(player.name + " used " + player.skills[choice] + "!");
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(player.name + " used " + player.skills[choice] + "!", 10);
                     enemy.health -= dmg;
                     if (enemy.health < 0) enemy.health = 0;
-                    System.out.println(enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health);
-                    currentCooldown[choice] = skillCooldown[choice];
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
+                    currentCDPlayer[choice] = skillCooldown[choice];
                 }
 
-                // Enemy turn
-                if (enemy.isAlive()) {
-                    int enemySkill = rand.nextInt(enemy.skills.length);
-                    int dmg = enemy.getRandomDamage(enemySkill);
-                    System.out.println(enemy.name + " used " + enemy.skills[enemySkill] + "!");
+                if (!enemy.isAlive()) break;
+
+                // --- Enemy Turn (AI) ---
+                prt.println();
+                paa.tabPrinter(tabPrintAmount);
+                EncantadiaGame.typePrint(enemy.name + " is attacking...\n", 10);
+
+                // Simple AI: Picks a random skill. If it picks a cooldown skill, it rerolls once to try and find a valid one.
+                int enemyChoice = rand.nextInt(enemy.skills.length);
+                if (currentCDEnemy[enemyChoice] > 0) {
+                    enemyChoice = rand.nextInt(enemy.skills.length); // Try one more time
+                }
+
+                if (currentCDEnemy[enemyChoice] > 0) {
+                    // If AI picks a cooldown skill again, it misses (Fairness)
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(" " + enemy.name + " fumbled and missed the attack! [😱]", 15);
+                } else {
+                    int dmg = enemy.getRandomDamage(enemyChoice);
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(enemy.name + " used " + enemy.skills[enemyChoice] + "!", 10);
                     player.health -= dmg;
                     if (player.health < 0) player.health = 0;
-                    System.out.println(player.name + " took " + dmg + " damage! Remaining HP: " + player.health);
+                    paa.tabPrinter(tabPrintAmount);
+                    EncantadiaGame.typePrint(player.name + " took " + dmg + " damage! Remaining HP: " + player.health, 10);
+                    currentCDEnemy[enemyChoice] = skillCooldown[enemyChoice];
                 }
 
-                // Decrease cooldowns
-                for (int i = 0; i < currentCooldown.length; i++) if (currentCooldown[i] > 0) currentCooldown[i]--;
+                // --- Decrease cooldowns ---
+                for (int i = 0; i < currentCDPlayer.length; i++) if (currentCDPlayer[i] > 0) currentCDPlayer[i]--;
+                for (int i = 0; i < currentCDEnemy.length; i++) if (currentCDEnemy[i] > 0) currentCDEnemy[i]--;
+
                 turn++;
             }
 
-            // Round result
+            // --- Round result ---
             if (player.isAlive()) {
                 counter.player1WinsRound();
-                System.out.println(player.name + " wins ROUND " + (counter.getRound() - 1));
+                prt.println();
+                paa.tabPrinter(tabPrintAmount);
+                EncantadiaGame.typePrint("🏆 " + player.name + " wins ROUND " + (counter.getRound() - 1) + "!", 15);
             } else {
                 counter.player2WinsRound();
-                System.out.println(enemy.name + " wins ROUND " + (counter.getRound() - 1));
+                prt.println();
+                paa.tabPrinter(tabPrintAmount);
+                EncantadiaGame.typePrint("🏆 " + enemy.name + " wins ROUND " + (counter.getRound() - 1) + "!", 15);
             }
+
+            // Pause slightly between rounds
+            try { Thread.sleep(2000); } catch (Exception e) {}
         }
 
         // --- Match winner ---
         Character winner = counter.getMatchWinner(player, enemy);
-        if (winner != null) System.out.println(winner.name + " wins the MATCH!");
+        if (winner != null) {
+            prt.println();
+            paa.tabPrinter(tabPrintAmount);
+            EncantadiaGame.typePrint("🎉 " + winner.name + " wins the MATCH! 🎉", 15);
+        }
 
-        return player.isAlive();
+        return player.isAlive(); // Returns true if player won the match
     }
 
 
@@ -626,8 +686,8 @@ public class EncantadiaGame {
     }
 
 
-    
-    
+
+
     //Art
     public static void main(String[] args) {
         // Welcome screen
@@ -816,107 +876,63 @@ public class EncantadiaGame {
                 battlePvP(playerCharacters[0], playerCharacters[1]);
                 break;
 
-            case 2: // PvE
+            case 2: // PvE - Single Random Enemy
                 playerCharacters = new Character[1];
 
-                // Only main characters allowed
-                Character[] mainCharacters = {Jelian, Joygen, Mary, Dirk};
-                playerCharacters[0] = chooseCharacterFancy("Player", mainCharacters);
+                // 1. Choose Player
+                Character[] availableHeroes = {Jelian, Joygen, Mary, Dirk};
+                playerCharacters[0] = chooseCharacterFancy("Player", availableHeroes);
+                Character p1 = playerCharacters[0];
 
-                // Determine built-in enemy
-                Character builtInEnemy;
-                String playerName = playerCharacters[0].name;
-                if (playerName.contains("Jelian")) builtInEnemy = Amihan;
-                else if (playerName.contains("Joygen")) builtInEnemy = Pirena;
-                else if (playerName.contains("Mary")) builtInEnemy = Alena;
-                else builtInEnemy = Danaya;
+                // 2. Determine Random Enemy
+                // Create a list of all characters EXCEPT the one the player picked
+                List<Character> enemyPool = new ArrayList<>();
+                for (Character c : allCharacters) {
+                    // Check checking logic to ensure we don't fight ourselves
+                    if (!c.name.equals(p1.name)) {
+                        enemyPool.add(c);
+                    }
+                }
 
-                // Reset health
-                playerCharacters[0].health = 500;
-                builtInEnemy.health = 500;
+                // Pick one random enemy from the pool
+                Character randomEnemy = enemyPool.get(rand.nextInt(enemyPool.size()));
 
-                // Show first enemy backstories once
-                System.out.println("\n⚔️ You will face: " + builtInEnemy.name + " ⚔️\n");
-                showBackstory(playerCharacters[0]);
-                showBackstory(builtInEnemy);
+                // Reset health before battle starts
+                p1.health = 500;
+                randomEnemy.health = 500;
 
-                // Start first battle
-                boolean playerWon = battlePvE(playerCharacters[0], builtInEnemy);
+                // 3. Intro
+                System.out.println("\n\t\t\t ⚔️ FATE HAS CHOSEN YOUR OPPONENT: " + randomEnemy.name + " ⚔️\n");
+                showBackstory(p1);
+                showBackstory(randomEnemy);
 
-                // Handle rematch if lost
-                while (!playerWon) {
-                    try {
-                        Scanner sc = new Scanner(System.in);
-                        System.out.print("\nYou lost! Rematch with same enemy? (Yes/No): ");
+                // 4. Start Battle
+                boolean playerWon = battlePvE(p1, randomEnemy);
+
+                // 5. Post-Battle Logic
+                if (playerWon) {
+                    System.out.println("\n🎉 You have defeated " + randomEnemy.name + "! The realm is safe for now. 🎉");
+                    showEpicEnding();
+                    // Returns to main menu automatically after ending logic
+                } else {
+                    // Rematch Logic
+                    boolean retry = true;
+                    while (retry) {
+                        System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t You were defeated. Try again against " + randomEnemy.name + "? (Yes/No): ");
                         String input = sc.nextLine().trim();
-
                         if (input.equalsIgnoreCase("yes")) {
-                            playerCharacters[0].health = 500;
-                            builtInEnemy.health = 500;
-                            playerWon = battlePvE(playerCharacters[0], builtInEnemy);
-                        } else if (input.equalsIgnoreCase("no")) {
-                            System.out.println("Redirecting to Welcome Screen...");
+                            playerWon = battlePvE(p1, randomEnemy);
+                            if (playerWon) {
+                                showEpicEnding();
+                                retry = false;
+                            }
+                        } else {
+                            typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t Returning to menu...", 10);
                             main(null);
                             return;
-                        } else {
-                            System.out.println("Invalid input! Please enter 'Yes' or 'No'.");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("An error occurred. Please try again.");
-                    }
-                }
-
-                System.out.println("\n🎉 You defeated " + builtInEnemy.name + " in PvE! 🎉");
-
-                // List remaining main enemies (exclude player and built-in enemy)
-                List<Character> remainingEnemies = new ArrayList<>();
-                for (Character c : mainCharacters) {
-                    if (!c.name.equals(playerCharacters[0].name) && !c.name.equals(builtInEnemy.name)) {
-                        remainingEnemies.add(c);
-                    }
-                }
-
-                // Fight remaining enemies using same player
-                while (!remainingEnemies.isEmpty()) {
-                    Character nextEnemy = remainingEnemies.get(0);
-                    remainingEnemies.remove(0);
-
-                    System.out.println("\n⚔️ You will face: " + nextEnemy.name + " ⚔️\n");
-                    showBackstory(nextEnemy);
-
-                    playerWon = battlePvE(playerCharacters[0], nextEnemy);
-
-                    // Rematch loop if lost
-                    while (!playerWon) {
-                        try {
-                            Scanner sc = new Scanner(System.in);
-                            System.out.print("\nYou lost! Rematch with same enemy? (Yes/No): ");
-                            String input = sc.nextLine().trim();
-
-                            if (input.equalsIgnoreCase("yes")) {
-                                playerCharacters[0].health = 500;
-                                nextEnemy.health = 500;
-                                playerWon = battlePvE(playerCharacters[0], nextEnemy);
-                            } else if (input.equalsIgnoreCase("no")) {
-                                System.out.println("Redirecting to Welcome Screen...");
-                                main(null);
-                                return;
-                            } else {
-                                System.out.println("Invalid input! Please enter 'Yes' or 'No'.");
-                            }
-                        } catch (Exception e) {
-                            System.out.println("An error occurred. Please try again.");
                         }
                     }
-
-                    System.out.println("\n🎉 You defeated " + nextEnemy.name + " in PvE! 🎉");
                 }
-
-                // All enemies defeated
-                System.out.println("\n🏆 Congratulations! You defeated all main enemies in PvE! 🏆");
-                
-               // --- Show epic ending sequence here ---
-                showEpicEnding(); // <-- place it here instead of immediately redirecting
                 break;
 
             case 3: // Arcade
