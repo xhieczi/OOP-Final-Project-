@@ -8,22 +8,34 @@ public class RoundCounter {
     // Assuming printingAsciiArts is in the same package
     public printingAsciiArts pr = new printingAsciiArts();
 
-    public RoundCounter() {
-        this.round = 1;
-        this.player1Wins = 0;
-        this.player2Wins = 0;
+    public RoundCounter(int player1Wins, int player2Wins, int round) {
+        this.setRound(round);
+        this.setPlayer1RoundsAccumulated(player1Wins);
+        this.setPlayer2RoundsAccumulated(player2Wins);
+    }
+
+    public void setRound(int round){
+        this.round = round;
+    }
+
+    public void setPlayer1RoundsAccumulated(int player1Wins){
+        this.player1Wins = player1Wins;
+    }
+
+    public void setPlayer2RoundsAccumulated(int player2Wins){
+        this.player2Wins = player2Wins;
     }
 
     public int getRound() {
         return round;
     }
 
-    public void player1WinsRound() {
+    public void setPlayer1WinsRound() {
         player1Wins++;
         round++;
     }
 
-    public void player2WinsRound() {
+    public void setPlayer2WinsRound() {
         player2Wins++;
         round++;
     }
