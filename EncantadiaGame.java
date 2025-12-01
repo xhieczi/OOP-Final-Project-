@@ -11,7 +11,7 @@ public class EncantadiaGame {
     static showMaryAndAlena MAAB = new showMaryAndAlena();
     static printingAsciiArts paa = new printingAsciiArts();
     static int turn = 1;
-    static RoundCounter counter = new RoundCounter(0, 0);
+    static RoundCounter counter = new RoundCounter(0, 0, 1);
     private static Character player;
     private static int choice;
 
@@ -209,7 +209,7 @@ public class EncantadiaGame {
     static void battlePvP(Character player1, Character player2) {
         Scanner sc = new Scanner(System.in);
         int tabPrintAmount = 13;
-        RoundCounter counter = new RoundCounter(0, 0);
+        RoundCounter counter = new RoundCounter(0, 0, 1);
 
         int[] cooldown1 = {0, 2, 3};
         int[] currentCD1 = {0, 0, 0};
@@ -389,7 +389,7 @@ public class EncantadiaGame {
     static boolean battlePvE(Character player, Character enemy) {
         Scanner sc = new Scanner(System.in);
         int tabPrintAmount = 13;
-        RoundCounter counter = new RoundCounter(0, 0);
+        RoundCounter counter = new RoundCounter(0, 0, 1);
 
         // Skill cooldown setup
         int[] skillCooldown = {0, 2, 3};
