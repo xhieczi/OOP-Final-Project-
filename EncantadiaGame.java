@@ -11,7 +11,7 @@ public class EncantadiaGame {
     static showMaryAndAlena MAAB = new showMaryAndAlena();
     static printingAsciiArts paa = new printingAsciiArts();
     static int turn = 1;
-    static RoundCounter counter = new RoundCounter();
+    static RoundCounter counter = new RoundCounter(0, 0);
     private static Character player;
     private static int choice;
 
@@ -209,7 +209,7 @@ public class EncantadiaGame {
     static void battlePvP(Character player1, Character player2) {
         Scanner sc = new Scanner(System.in);
         int tabPrintAmount = 13;
-        RoundCounter counter = new RoundCounter();
+        RoundCounter counter = new RoundCounter(0, 0);
 
         int[] cooldown1 = {0, 2, 3};
         int[] currentCD1 = {0, 0, 0};
@@ -334,12 +334,12 @@ public class EncantadiaGame {
 
             // --- Round result ---
             if (player1.isAlive() && !player2.isAlive()) {
-                counter.player1WinsRound();
+                counter.setPlayer1WinsRound();
                 prt.println();
                 paa.tabPrinter(tabPrintAmount);
                 EncantadiaGame.typePrint("🏆 " + player1.name + " wins ROUND " + (counter.getRound() - 1) + "!", 15);
             } else if (!player1.isAlive() && player2.isAlive()) {
-                counter.player2WinsRound();
+                counter.setPlayer2WinsRound();
                 prt.println();
                 paa.tabPrinter(tabPrintAmount);
                 EncantadiaGame.typePrint("🏆 " + player2.name + " wins ROUND " + (counter.getRound() - 1) + "!", 15);
@@ -389,7 +389,7 @@ public class EncantadiaGame {
     static boolean battlePvE(Character player, Character enemy) {
         Scanner sc = new Scanner(System.in);
         int tabPrintAmount = 13;
-        RoundCounter counter = new RoundCounter();
+        RoundCounter counter = new RoundCounter(0, 0);
 
         // Skill cooldown setup
         int[] skillCooldown = {0, 2, 3};
@@ -505,12 +505,12 @@ public class EncantadiaGame {
 
             // --- Round result ---
             if (player.isAlive()) {
-                counter.player1WinsRound();
+                counter.setPlayer1WinsRound();
                 prt.println();
                 paa.tabPrinter(tabPrintAmount);
                 EncantadiaGame.typePrint("🏆 " + player.name + " wins ROUND " + (counter.getRound() - 1) + "!", 15);
             } else {
-                counter.player2WinsRound();
+                counter.setPlayer2WinsRound();
                 prt.println();
                 paa.tabPrinter(tabPrintAmount);
                 EncantadiaGame.typePrint("🏆 " + enemy.name + " wins ROUND " + (counter.getRound() - 1) + "!", 15);
