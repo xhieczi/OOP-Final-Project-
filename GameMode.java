@@ -49,7 +49,7 @@ public class GameMode {
 
         prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
-        EncantadiaGame.typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+        [🎮] You chose " + modeName + "!        +\t\t\t ", 8);
+        EncantadiaGame.typePrint(String.format("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+        \t\t[🎮] You chose %-15s!        \t\t\t+\t\t\t ", modeName), 8);
         prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         for (int i = 1; i <= 15; i++) prt.print("=====");
 
