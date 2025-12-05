@@ -50,7 +50,7 @@ public class RoundCounter {
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         pr.tabPrinter(19);
         EncantadiaGame.typePrint("   ========================================================", 8);
-        pr.tabPrinter(23);
+        pr.tabPrinter(21);
         // Added Score Display here:
         System.out.println("           ROUND " + round + "  |  SCORE: [" + player1Wins + " - " + player2Wins + "]");
         pr.tabPrinter(19);
