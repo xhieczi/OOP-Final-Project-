@@ -136,15 +136,19 @@ public class EncantadiaGame {
             }
 
             if (skillChoice < 1 || skillChoice > player.skills.length) {
-                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t You missed your attack! [😱]", 15);
+                paa.tabPrinter(21);
+                typePrint("\n You missed your attack! [😱]", 15);
             } else if (currentCooldown[skillChoice - 1] > 0) {
-                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t That skill is on cooldown! You missed your attack! [😱]", 15);
+                paa.tabPrinter(21);
+                typePrint("\n That skill is on cooldown! You missed your attack! [😱]", 15);
             } else {
                 int dmg = player.getRandomDamage(skillChoice - 1); // randomized damage
-                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + player.name + " used " + player.skills[skillChoice - 1] + "!", 10);
+                paa.tabPrinter(21);
+                typePrint("\n " + player.name + " used " + player.skills[skillChoice - 1] + "!", 10);
                 enemy.health -= dmg;
                 if (enemy.health < 0) enemy.health = 0;
-                typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t [💥] " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
+                paa.tabPrinter(21);
+                typePrint("\n [💥] " + enemy.name + " took " + dmg + " damage! Remaining HP: " + enemy.health, 10);
 
                 currentCooldown[skillChoice - 1] = skillCooldown[skillChoice - 1];
             }
@@ -178,7 +182,7 @@ public class EncantadiaGame {
             boolean validReplay = false;
             while (!validReplay) {
                 try {
-                    System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
+                    System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to venture once more? [ Yes / No ]: ");
                     String replay = sc.nextLine().trim().toLowerCase();
 
                     if (replay.equals("yes")) {
@@ -273,14 +277,17 @@ public class EncantadiaGame {
                 }
 
                 if (choice1 < 0 || choice1 >= player1.skills.length || currentCD1[choice1] > 0) {
+                    prt.println();
                     paa.tabPrinter(tabPrintAmount);
                     EncantadiaGame.typePrint(" Missed your attack! [😱]", 15);
                 } else {
                     int dmg = player1.getRandomDamage(choice1);
+                    prt.println();
                     paa.tabPrinter(tabPrintAmount);
                     EncantadiaGame.typePrint(player1.name + " used " + player1.skills[choice1] + "!", 10);
                     player2.health -= dmg;
                     if (player2.health < 0) player2.health = 0;
+                    prt.println();
                     paa.tabPrinter(tabPrintAmount);
                     EncantadiaGame.typePrint(player2.name + " took " + dmg + " damage! Remaining HP: " + player2.health, 10);
                     currentCD1[choice1] = cooldown1[choice1];
@@ -312,14 +319,17 @@ public class EncantadiaGame {
                 }
 
                 if (choice2 < 0 || choice2 >= player2.skills.length || currentCD2[choice2] > 0) {
+                    prt.println();
                     paa.tabPrinter(tabPrintAmount);
                     EncantadiaGame.typePrint(" Missed your attack! [😱]", 15);
                 } else {
                     int dmg = player2.getRandomDamage(choice2);
+                    prt.println();
                     paa.tabPrinter(tabPrintAmount);
                     EncantadiaGame.typePrint(player2.name + " used " + player2.skills[choice2] + "!", 10);
                     player1.health -= dmg;
                     if (player1.health < 0) player1.health = 0;
+                    prt.println();
                     paa.tabPrinter(tabPrintAmount);
                     EncantadiaGame.typePrint(player1.name + " took " + dmg + " damage! Remaining HP: " + player1.health, 10);
                     currentCD2[choice2] = cooldown2[choice2];
@@ -365,12 +375,12 @@ public class EncantadiaGame {
 
         prt.println();
         paa.tabPrinter(tabPrintAmount);
-        System.out.print(player1.name + ", do you wish to play again? (Yes/No): ");
+        System.out.print(player1.name + ", Do you wish to play again? (Yes/No): ");
         if (sc.nextLine().trim().equalsIgnoreCase("yes")) p1Replay = true;
 
         prt.println();
         paa.tabPrinter(tabPrintAmount);
-        System.out.print(player2.name + ", do you wish to play again? (Yes/No): ");
+        System.out.print(player2.name + ", Do you wish to play again? (Yes/No): ");
         if (sc.nextLine().trim().equalsIgnoreCase("yes")) p2Replay = true;
 
         if (p1Replay && p2Replay) {
@@ -599,7 +609,7 @@ public class EncantadiaGame {
         // --- Ask to play again ---
         boolean validReplay = false;
         while (!validReplay) {
-            System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
+            System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to venture once more? [ Yes / No ]: ");
             String replay = sc.next().trim().toLowerCase();
 
             if (replay.equalsIgnoreCase("yes")) {
@@ -736,12 +746,15 @@ public class EncantadiaGame {
             // --- Ask to play again ---
             boolean validReplay = false;
             while (!validReplay) {
-                System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to play again? (Yes/No): ");
+                System.out.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Do you wish to venture once more? [ Yes / No ]: ");
                 String replay = sc.nextLine().trim().toLowerCase();
 
                 if (replay.equals("yes")) {
                     validReplay = true;
                     typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [🔄] Isa kang magiting na mandirigma... Maghanda sa panibagong panimula! [✨]\n", 10);
+                    for(int i = 1; i <= 30; i++){
+                        prt.println();
+                    }
                     main(null); // restart the game
                     return; // prevent further execution in current main
                 } else if (replay.equals("no")) {
@@ -757,13 +770,14 @@ public class EncantadiaGame {
 
         boolean validInput = false;
 
+        prt.println("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [Press [1] to Discover \uD83E\uDEB6 or [0] to Skip ⚔\uFE0F and Start the Game]");
+        prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+        for (int i1 = 1; i1 <= 18; i1++) {
+            prt.print("=====");
+        }
         while (!validInput) {
             try {
-                prt.println("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t [Press [1] to Discover \uD83E\uDEB6 or [0] to Skip ⚔\uFE0F and Start the Game]");
-                prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
-                for (int i1 = 1; i1 <= 18; i1++) {
-                    prt.print("=====");
-                }
+
 
                 prt.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Enter your choice: ");
                 String input = sc.nextLine().trim();
@@ -775,11 +789,13 @@ public class EncantadiaGame {
                     break;
                 } else if (input.equals("1")) {
                     validInput = true;
-                    prt.print("\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                    System.out.println("\n\n");
+                    paa.printBackgroundScene();
+                    prt.print("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
                     for (int i1 = 1; i1 <= 18; i1++) {
                         prt.print("=====");
                     }
-                    typePrint("\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         ------------------------- ✨ ANG NAKARAAN ✨ -------------------------        +", 10);
+                    typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         ------------------------- ✨ ANG NAKARAAN ✨ -------------------------        +", 10);
                     typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+                                                                                        +", 10);
                     typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+         Nonong Imaw: Long ago, there was peace in the kingdoms of Encantadia...        +", 10);
                     typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t+       Under the guidance of the Queen and her four Sang’gres, harmony reigned.         +", 10);
@@ -793,6 +809,10 @@ public class EncantadiaGame {
                     prt.print("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
                     for (int i1 = 1; i1 <= 18; i1++) {
                         prt.print("=====");
+                    }
+                    typePrint("", 100000);
+                    for(int i = 1; i <= 10; i++){
+                        prt.println();
                     }
                     break;
                 } else {
@@ -861,6 +881,7 @@ public class EncantadiaGame {
 
         switch (gameMode) {
             case 1: // PvP
+                paa.printPVP();
                 playerCharacters = new Character[2];
                 playerCharacters[0] = chooseCharacterFancy("Player 1", allCharacters);
                 Character[] remaining = Arrays.stream(allCharacters)
@@ -878,7 +899,7 @@ public class EncantadiaGame {
 
             case 2: // PvE - Single Random Enemy
                 playerCharacters = new Character[1];
-
+                paa.printPVE();
                 // 1. Choose Player
                 Character[] availableHeroes = {Jelian, Joygen, Mary, Dirk};
                 playerCharacters[0] = chooseCharacterFancy("Player", availableHeroes);
@@ -902,7 +923,9 @@ public class EncantadiaGame {
                 randomEnemy.health = 500;
 
                 // 3. Intro
-                System.out.println("\n\t\t\t ⚔️ FATE HAS CHOSEN YOUR OPPONENT: " + randomEnemy.name + " ⚔️\n");
+                prt.println();
+                paa.tabPrinter(13);
+                System.out.println(" ⚔️ FATE HAS CHOSEN YOUR OPPONENT: " + randomEnemy.name + " ⚔️\n");
                 showBackstory(p1);
                 showBackstory(randomEnemy);
 
@@ -927,7 +950,11 @@ public class EncantadiaGame {
                                 retry = false;
                             }
                         } else {
+                            paa.lostScreen();
                             typePrint("\n\t\t\t\t\t\t\t\t\t\t\t\t Returning to menu...", 10);
+                            for(int i = 1; i <= 20; i++){
+                                prt.println();
+                            }
                             main(null);
                             return;
                         }
@@ -936,6 +963,7 @@ public class EncantadiaGame {
                 break;
 
             case 3: // Arcade
+                paa.printARCADE();
                 playerCharacters = new Character[1];
                 playerCharacters[0] = chooseCharacterFancy("Player", allCharacters);
                 enemies = Arrays.stream(allCharacters)
@@ -967,6 +995,7 @@ public class EncantadiaGame {
 
             boolean won = battle(player, en, choice);
             if (!won) {
+                paa.lostScreen();
                 typePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Encantadia is lost in darkness... [💀]", 15);
                 return;
             }
